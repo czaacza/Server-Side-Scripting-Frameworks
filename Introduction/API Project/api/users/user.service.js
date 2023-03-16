@@ -21,4 +21,6 @@ module.exports = {
       }
     );
   },
+  getUsers: callBack => {
+    pool.query(`select id, firstName, lastName, gender, email, number from registration`)
 };

@@ -3,12 +3,12 @@ const express = require('express');
 const app = express();
 const userRouter = require('./api/users/user.router');
 
-// app.get('/api', (req, res) => {
-//   res.json({
-//     success: 1,
-//     message: 'This is REST api working',
-//   });
-// });
+app.get('/api', (req, res) => {
+  res.json({
+    success: 1,
+    message: 'This is REST api working',
+  });
+});
 app.use(express.json());
 
 app.use('/api/users', userRouter);
