@@ -13,28 +13,6 @@ import UserModel from '../models/userModel';
 import MessageResponse from '../../interfaces/DBMessageResponse';
 import {validationResult} from 'express-validator';
 
-const userGet = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const messages = errors
-        .array()
-        .map((error) => error.msg)
-        .join(',');
-      next(new CustomError(messages, 400));
-    }
-
-    const userId = req.params.userId;
-    const user = await UserModel.findById(userId);
-    if (!user) {
-      next(new CustomError('User not found', 404));
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const userListGet = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const errors = validationResult(req);
@@ -51,6 +29,28 @@ const userListGet = async (req: Request, res: Response, next: NextFunction) => {
       next(new CustomError('No users found', 404));
     }
     res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const userGet = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+
+    const userId = req.params.id;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      next(new CustomError('User not found', 404));
+    }
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
@@ -87,6 +87,7 @@ const userPutCurrent = async (
   next: NextFunction
 ) => {
   try {
+    console.log('current user: ', req.user);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const messages = errors
@@ -98,14 +99,17 @@ const userPutCurrent = async (
 
     const currentUser = req.user as User;
 
-    const user = UserModel.findByIdAndUpdate(currentUser.id);
+    const user = await UserModel.findByIdAndUpdate(currentUser.id);
     if (!user) {
       next(new CustomError('User not updated', 404));
     }
-
     const messageResponse: MessageResponse = {
       message: 'User updated',
-      data: user,
+      data: {
+        _id: user!._id,
+        user_name: user!.user_name,
+        email: user!.email,
+      },
     };
     res.status(200).json(messageResponse);
   } catch (error) {
@@ -130,17 +134,45 @@ const userDeleteCurrent = async (
 
     const currentUser = req.user as User;
 
-    const user = UserModel.findByIdAndDelete(currentUser.id);
+    const user = await UserModel.findByIdAndDelete(currentUser.id);
     if (!user) {
       next(new CustomError('User not deleted', 404));
     }
 
     const messageResponse: MessageResponse = {
       message: 'User deleted',
-      data: user,
+      data: {
+        _id: user!._id,
+        user_name: user!.user_name,
+        email: user!.email,
+      },
     };
     res.status(200).json(messageResponse);
   } catch (error) {
     next(error);
   }
+};
+
+const checkToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  userGet,
+  userListGet,
+  userPost,
+  userPutCurrent,
+  userDeleteCurrent,
+  checkToken,
 };
