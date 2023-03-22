@@ -6,7 +6,7 @@ const SpeciesSchema: Schema = new Schema<ISpecies>({
   category: {type: Schema.Types.ObjectId, ref: 'Category', required: true},
   image: {type: String, required: true},
   location: {
-    type: {enum: ['Point'], required: true},
+    type: {type: String, enum: ['Point'], required: true},
     coordinates: {type: [Number], default: [0, 0], required: true},
   },
 });

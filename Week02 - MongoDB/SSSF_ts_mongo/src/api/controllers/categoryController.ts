@@ -132,3 +132,5 @@ const categoryDelete = async (
     next(error);
   }
 };
+
+export {categoryGetAll, categoryGet, categoryPost, categoryPut, categoryDelete};

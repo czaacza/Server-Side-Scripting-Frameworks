@@ -1,14 +1,12 @@
 import {NextFunction} from 'express';
-// TODO: Controller for species model
 import {Request, Response} from 'express';
 import {validationResult} from 'express-validator';
-import {CustomError} from '../../utils/CustomError';
+import CustomError from '../../classes/CustomError';
 import {ISpecies} from '../../interfaces/Species';
 import speciesModel from '../models/speciesModel';
 import DBMessageResponse from '../../interfaces/DBMessageResponse';
 import rectangleBounds from '../../utils/rectangleBounds';
 
-// create speciesController functions based on categoryController
 const speciesGetAll = async (
   req: Request,
   res: Response,
@@ -76,7 +74,7 @@ const speciesPost = async (
 };
 
 const speciesPut = async (
-  req: Request<{}, {}, ISpecies>,
+  req: Request<{id: string}, {}, ISpecies>,
   res: Response,
   next: NextFunction
 ) => {
@@ -127,7 +125,6 @@ const speciesDelete = async (
       .findByIdAndDelete(speciesId)
       .populate('category');
     if (!species) {
-      ś;
       throw new CustomError('Species not found', 404);
     }
     const messageResponse: DBMessageResponse = {
@@ -167,9 +164,27 @@ const speciesByAreaGet = async (
       {lat: topRightLatNum, lng: topRightLngNum},
       {lat: bottomLeftLatNum, lng: bottomLeftLngNum}
     );
+    const species = await speciesModel.find({
+      location: {
+        $geoWithin: {
+          $geometry: bounds,
+        },
+      },
+    });
+    if (!species) {
+      throw new CustomError('No species found', 404);
+    }
+    res.status(200).json(species);
   } catch (error) {
     next(error);
   }
 };
 
-export {speciesGetAll, speciesGet, speciesPost, speciesPut, speciesDelete};
+export {
+  speciesGetAll,
+  speciesGet,
+  speciesPost,
+  speciesPut,
+  speciesDelete,
+  speciesByAreaGet,
+};
