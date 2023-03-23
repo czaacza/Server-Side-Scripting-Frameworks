@@ -19,6 +19,7 @@ import {Types} from 'mongoose';
 import {validationResult} from 'express-validator';
 import CustomError from '../../classes/CustomError';
 import DBMessageResponse from '../../interfaces/DBMessageResponse';
+import rectangleBounds from '../../utils/rectangleBounds';
 
 const catListGet = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -85,6 +86,52 @@ const catGet = async (req: Request, res: Response, next: NextFunction) => {
       res.status(404).json({message: 'Cat not found'});
     }
     res.status(200).json(cat);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const catGetByBoundingBox = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+    const {topRight, bottomLeft} = req.query;
+    const [topRightLat, topRightLng] = (topRight as string).split(',');
+    const [bottomLeftLat, bottomLeftLng] = (bottomLeft as string).split(',');
+
+    const topRightLatNum = Number(topRightLat);
+    const topRightLngNum = Number(topRightLng);
+    const bottomLeftLatNum = Number(bottomLeftLat);
+    const bottomLeftLngNum = Number(bottomLeftLng);
+
+    const bounds = rectangleBounds(
+      {lat: topRightLatNum, lng: topRightLngNum},
+      {lat: bottomLeftLatNum, lng: bottomLeftLngNum}
+    );
+
+    const cats = await CatModel.find({
+      coords: {
+        $geoWithin: {
+          $geometry: bounds,
+        },
+      },
+    }).populate('owner');
+
+    if (!cats || cats.length === 0) {
+      next(new CustomError('No cats found', 404));
+    }
+
+    res.status(200).json(cats);
   } catch (error) {
     next(error);
   }
@@ -260,6 +307,7 @@ const catDeleteAdmin = async (
 export {
   catGet,
   catGetByUser,
+  catGetByBoundingBox,
   catListGet,
   catPost,
   catPut,

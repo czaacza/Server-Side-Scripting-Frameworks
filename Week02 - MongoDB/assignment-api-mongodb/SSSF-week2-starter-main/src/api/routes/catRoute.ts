@@ -6,7 +6,7 @@ import {
   catPost,
   catPut,
   catGetByUser,
-  // catGetByBoundingBox,
+  catGetByBoundingBox,
   catPutAdmin,
   catDeleteAdmin,
 } from '../controllers/catController';
@@ -42,7 +42,7 @@ router
     catPost
   );
 
-// router.route('/area').get(catGetByBoundingBox);
+router.route('/area').get(catGetByBoundingBox);
 
 router
   .route('/user')
