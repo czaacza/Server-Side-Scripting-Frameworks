@@ -8,10 +8,13 @@
 
 import {NextFunction, Request, Response} from 'express';
 import CustomError from '../../classes/CustomError';
-import {User} from '../../interfaces/User';
+import {User, UserOutput} from '../../interfaces/User';
 import UserModel from '../models/userModel';
 import MessageResponse from '../../interfaces/DBMessageResponse';
 import {validationResult} from 'express-validator';
+import bcrypt from 'bcryptjs';
+
+const salt = bcrypt.genSaltSync(12);
 
 const userListGet = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -28,7 +31,14 @@ const userListGet = async (req: Request, res: Response, next: NextFunction) => {
     if (!users) {
       next(new CustomError('No users found', 404));
     }
-    res.status(200).json(users);
+    const usersOutput: UserOutput[] = users.map((user) => {
+      return {
+        _id: user._id,
+        user_name: user.user_name,
+        email: user.email,
+      };
+    });
+    res.status(200).json(usersOutput);
   } catch (error) {
     next(error);
   }
@@ -50,7 +60,13 @@ const userGet = async (req: Request, res: Response, next: NextFunction) => {
     if (!user) {
       next(new CustomError('User not found', 404));
     }
-    res.status(200).json(user);
+    const userOutput: UserOutput = {
+      _id: (user as User)._id,
+      user_name: (user as User).user_name,
+      email: (user as User).email,
+    };
+
+    res.status(200).json(userOutput);
   } catch (error) {
     next(error);
   }
@@ -66,16 +82,26 @@ const userPost = async (req: Request, res: Response, next: NextFunction) => {
         .join(',');
       next(new CustomError(messages, 400));
     }
+    const userToSend = {
+      ...req.body,
+      password: bcrypt.hashSync(req.body.password, salt),
+    };
 
-    const user = await UserModel.create(req.body);
+    const user = await UserModel.create(userToSend);
     if (!user) {
       next(new CustomError('User not created', 404));
     }
+    const userOutput: UserOutput = {
+      _id: user._id,
+      user_name: user.user_name,
+      email: user.email,
+    };
+
     const messageResponse: MessageResponse = {
       message: 'User created',
-      data: user,
+      data: userOutput,
     };
-    res.status(201).json(messageResponse);
+    res.status(200).json(messageResponse);
   } catch (error) {
     next(error);
   }
@@ -87,7 +113,6 @@ const userPutCurrent = async (
   next: NextFunction
 ) => {
   try {
-    console.log('current user: ', req.user);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const messages = errors
@@ -98,18 +123,23 @@ const userPutCurrent = async (
     }
 
     const currentUser = req.user as User;
+    console.log('currentUser', currentUser);
 
-    const user = await UserModel.findByIdAndUpdate(currentUser.id);
+    const user = await UserModel.findByIdAndUpdate(currentUser._id, req.body, {
+      new: true,
+    });
     if (!user) {
-      next(new CustomError('User not updated', 404));
+      throw new CustomError('User not updated', 404);
     }
+    const userOutput: UserOutput = {
+      _id: (user as User)._id,
+      user_name: (user as User).user_name,
+      email: (user as User).email,
+    };
+
     const messageResponse: MessageResponse = {
       message: 'User updated',
-      data: {
-        _id: user!._id,
-        user_name: user!.user_name,
-        email: user!.email,
-      },
+      data: userOutput,
     };
     res.status(200).json(messageResponse);
   } catch (error) {
@@ -134,18 +164,20 @@ const userDeleteCurrent = async (
 
     const currentUser = req.user as User;
 
-    const user = await UserModel.findByIdAndDelete(currentUser.id);
+    const user = await UserModel.findByIdAndDelete(currentUser._id);
     if (!user) {
-      next(new CustomError('User not deleted', 404));
+      next(new CustomError('User not found', 404));
     }
+
+    const userOutput: UserOutput = {
+      _id: (user as User)._id,
+      user_name: (user as User).user_name,
+      email: (user as User).email,
+    };
 
     const messageResponse: MessageResponse = {
       message: 'User deleted',
-      data: {
-        _id: user!._id,
-        user_name: user!.user_name,
-        email: user!.email,
-      },
+      data: userOutput,
     };
     res.status(200).json(messageResponse);
   } catch (error) {
@@ -154,17 +186,17 @@ const userDeleteCurrent = async (
 };
 
 const checkToken = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const messages = errors
-        .array()
-        .map((error) => error.msg)
-        .join(',');
-      next(new CustomError(messages, 400));
-    }
-  } catch (error) {
-    next(error);
+  if (req.user) {
+    const user = req.user as User;
+    const userOutput: UserOutput = {
+      _id: user._id,
+      user_name: user.user_name,
+      email: user.email,
+    };
+
+    res.status(200).json(userOutput);
+  } else {
+    next(new CustomError('Token not valid', 400));
   }
 };
 

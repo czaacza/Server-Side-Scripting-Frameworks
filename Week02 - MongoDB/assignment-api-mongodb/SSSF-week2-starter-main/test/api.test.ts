@@ -54,12 +54,15 @@ describe('GET /api/v1', () => {
   // test create user
   let token: string;
   let user: UserWithToken;
+
   const testUser: UserTest = {
     user_name: 'Test User ' + randomstring.generate(7),
     email: randomstring.generate(9) + '@user.fi',
     password: 'asdfQEWR1234',
+    role: 'user',
   };
   it('should create a new user', async () => {
+    console.log(testUser);
     await postUser(app, testUser);
   });
 

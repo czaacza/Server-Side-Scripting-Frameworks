@@ -16,8 +16,10 @@ passport.use(
       if (!bcrypt.compareSync(password, user.password!)) {
         return done(null, false);
       }
+
       // convert user to plain object to get rid of binary row type
       const loginUser: LoginUser = user.toObject();
+      console.log(loginUser, loginUser);
       return done(null, loginUser, {message: 'Logged In Successfully'}); // use spread syntax to create shallow copy to get rid of binary row type
     } catch (err) {
       return done(err);

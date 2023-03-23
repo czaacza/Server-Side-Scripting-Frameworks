@@ -8,9 +8,7 @@ interface User extends Document {
 }
 
 interface LoginUser {
-  user_name: string;
-  email: string;
-  role: 'user' | 'admin';
+  username: string;
   password: string;
 }
 
@@ -20,4 +18,11 @@ interface UserOutput {
   email: string;
 }
 
-export {User, LoginUser, UserOutput};
+interface UserTest {
+  user_name: string;
+  email: string;
+  password: string;
+  role: 'user' | 'admin';
+}
+
+export {User, LoginUser, UserOutput, UserTest};

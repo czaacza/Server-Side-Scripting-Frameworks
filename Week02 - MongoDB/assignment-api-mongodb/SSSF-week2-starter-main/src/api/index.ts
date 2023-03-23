@@ -1,7 +1,7 @@
 import express from 'express';
 
 import userRoute from './routes/userRoute';
-// import catRoute from './routes/catRoute';
+import catRoute from './routes/catRoute';
 import authRoute from './routes/authRoute';
 import MessageResponse from '../interfaces/MessageResponse';
 import passport from 'passport';
@@ -18,6 +18,6 @@ router.get<{}, MessageResponse>('/', (req, res) => {
 
 router.use('/auth', authRoute);
 router.use('/users', userRoute);
-// router.use('/cats', catRoute);
+router.use('/cats', catRoute);
 
 export default router;

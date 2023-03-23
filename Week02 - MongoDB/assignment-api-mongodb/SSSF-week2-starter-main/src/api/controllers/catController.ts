@@ -11,13 +11,36 @@ import {NextFunction} from 'express';
 // - catPost - create new cat
 
 import {Request, Response} from 'express';
-import {CatModel} from '../models/catModel';
+import CatModel from '../models/catModel';
 import {User} from '../../interfaces/User';
+import {Cat} from '../../interfaces/Cat';
 import {Point} from 'geojson';
 import {Types} from 'mongoose';
 import {validationResult} from 'express-validator';
 import CustomError from '../../classes/CustomError';
 import DBMessageResponse from '../../interfaces/DBMessageResponse';
+
+const catListGet = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+
+    const cats = await CatModel.find().populate('owner');
+    if (!cats || cats.length === 0) {
+      next(new CustomError('No cats found', 404));
+    }
+
+    res.status(200).json(cats);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const catGetByUser = async (
   req: Request,
@@ -55,9 +78,9 @@ const catGet = async (req: Request, res: Response, next: NextFunction) => {
         .join(',');
       next(new CustomError(messages, 400));
     }
+    const catId = req.params.id;
 
-    const catId = req.params.catId;
-    const cat = await CatModel.findById(catId);
+    const cat = await CatModel.findById(catId).populate('owner');
     if (!cat) {
       res.status(404).json({message: 'Cat not found'});
     }
@@ -77,14 +100,91 @@ const catPost = async (req: Request, res: Response, next: NextFunction) => {
         .join(',');
       next(new CustomError(messages, 400));
     }
+    const catToSend = {
+      ...req.body,
+      filename: req.file!.filename,
+      coords: res.locals.coords as Point,
+      owner: (req.user as User)._id,
+    };
 
-    const cat = await CatModel.create(req.body);
+    const cat = await CatModel.create(catToSend);
+
+    cat.populate('owner');
 
     const message: DBMessageResponse = {
       message: 'Cat created',
-      data: cat,
+      data: cat as Cat,
     };
-    res.status(201).json(message);
+    res.status(200).json(message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const catPut = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+
+    const catId = req.params.id;
+    const cat = await CatModel.findById(catId);
+
+    if (!cat) {
+      res.status(404).json({message: 'Cat not found'});
+    }
+
+    if ((cat as Cat).owner.toString() !== (req.user as User)._id) {
+      throw new CustomError('Only owner can update cat', 403);
+    }
+    const catResult = await CatModel.findByIdAndUpdate(catId, req.body, {
+      new: true,
+    }).populate('owner');
+
+    const message: DBMessageResponse = {
+      message: 'Cat updated',
+      data: catResult as Cat,
+    };
+
+    res.status(200).json(message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const catDelete = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const messages = errors
+        .array()
+        .map((error) => error.msg)
+        .join(',');
+      next(new CustomError(messages, 400));
+    }
+
+    const catId = req.params.id;
+    const cat = await CatModel.findById(catId);
+    if (!cat) {
+      res.status(404).json({message: 'Cat not found'});
+    }
+
+    if ((cat as Cat).owner.toString() !== (req.user as User)._id) {
+      throw new CustomError('Only owner can delete cat', 403);
+    }
+
+    const catResult = await CatModel.findByIdAndDelete(catId).populate('owner');
+
+    const message: DBMessageResponse = {
+      message: 'Cat deleted',
+      data: catResult as Cat,
+    };
+    res.status(200).json(message);
   } catch (error) {
     next(error);
   }
@@ -105,19 +205,17 @@ const catPutAdmin = async (req: Request, res: Response, next: NextFunction) => {
       throw new CustomError('Only admin can change cat owner', 403);
     }
 
-    const catId = req.params.catId;
-    const ownerId = req.body.ownerId;
-    const cat = await CatModel.findByIdAndUpdate(
-      catId,
-      {owner: ownerId},
-      {new: true}
-    );
+    const catId = req.params.id;
+
+    const cat = await CatModel.findByIdAndUpdate(catId, req.body, {
+      new: true,
+    }).populate('owner');
     if (!cat) {
       res.status(404).json({message: 'Cat not found'});
     }
     const message: DBMessageResponse = {
       message: 'Cat owner updated',
-      data: cat,
+      data: cat as Cat,
     };
 
     res.status(200).json(message);
@@ -144,14 +242,14 @@ const catDeleteAdmin = async (
     if ((req.user as User).role !== 'admin') {
       throw new CustomError('Only admin can delete cat', 403);
     }
-    const catId = req.params.catId;
-    const cat = await CatModel.findByIdAndDelete(catId);
+    const catId = req.params.id;
+    const cat = await CatModel.findByIdAndDelete(catId).populate('owner');
     if (!cat) {
       res.status(404).json({message: 'Cat not found'});
     }
     const message: DBMessageResponse = {
       message: 'Cat deleted',
-      data: cat,
+      data: cat as Cat,
     };
     res.status(200).json(message);
   } catch (error) {
@@ -159,67 +257,13 @@ const catDeleteAdmin = async (
   }
 };
 
-const catDelete = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const messages = errors
-        .array()
-        .map((error) => error.msg)
-        .join(',');
-      next(new CustomError(messages, 400));
-    }
-
-    const catId = req.params.catId;
-    const cat = await CatModel.findById(catId);
-    if (!cat) {
-      res.status(404).json({message: 'Cat not found'});
-    }
-
-    if (cat.owner !== (req.user as User)._id) {
-      throw new CustomError('Only owner can delete cat', 403);
-    }
-
-    await CatModel.findByIdAndDelete(catId);
-
-    const message: DBMessageResponse = {
-      message: 'Cat deleted',
-      data: cat,
-    };
-    res.status(200).json(message);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const catPut = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const messages = errors
-        .array()
-        .map((error) => error.msg)
-        .join(',');
-      next(new CustomError(messages, 400));
-    }
-
-    const catId = req.params.catId;
-    const cat = await CatModel.findById(catId);
-    if (!cat) {
-      res.status(404).json({message: 'Cat not found'});
-    }
-    if (cat.owner !== (req.user as User)._id) {
-      throw new CustomError('Only owner can update cat', 403);
-    }
-    await CatModel.findByIdAndUpdate(catId, req.body, {new: true});
-
-    const message: DBMessageResponse = {
-      message: 'Cat updated',
-      data: cat,
-    };
-
-    res.status(200).json(message);
-  } catch (error) {
-    next(error);
-  }
+export {
+  catGet,
+  catGetByUser,
+  catListGet,
+  catPost,
+  catPut,
+  catDelete,
+  catPutAdmin,
+  catDeleteAdmin,
 };

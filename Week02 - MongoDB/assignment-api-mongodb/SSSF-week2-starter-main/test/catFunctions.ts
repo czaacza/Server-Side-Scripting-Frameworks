@@ -17,10 +17,10 @@ const getCat = (url: string | Function): Promise<Cat[]> => {
           cats.forEach((cat) => {
             expect(cat).toHaveProperty('_id');
             expect(cat).toHaveProperty('cat_name');
-            expect(cat.owner._id).not.toBeUndefined();
+            expect(cat.owner).not.toBeUndefined();
             expect(cat).toHaveProperty('weight');
             expect(cat).toHaveProperty('birthdate');
-            expect(cat.location).toHaveProperty('type');
+            expect(cat.coords).toHaveProperty('type');
           });
           resolve(cats);
         }
@@ -42,7 +42,7 @@ const getSingleCat = (url: string | Function, id: string): Promise<Cat> => {
           expect(cat.owner._id).not.toBeUndefined();
           expect(cat).toHaveProperty('weight');
           expect(cat).toHaveProperty('birthdate');
-          expect(cat.location).toHaveProperty('type');
+          expect(cat.coords).toHaveProperty('type');
           resolve(response.body);
         }
       });
