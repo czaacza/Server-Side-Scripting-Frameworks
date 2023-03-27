@@ -1,0 +1,11 @@
+scalar DateTime
+
+type Animal {
+  id: ID
+  animal_name: String
+  species: Int
+}
+
+type Query {
+  animals: [Animal]
+}
