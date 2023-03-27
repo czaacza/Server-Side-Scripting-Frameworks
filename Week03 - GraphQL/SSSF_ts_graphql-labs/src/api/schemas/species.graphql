@@ -1,0 +1,5 @@
+type Species {
+  id: ID
+  species_name: String
+  category: Category
+}

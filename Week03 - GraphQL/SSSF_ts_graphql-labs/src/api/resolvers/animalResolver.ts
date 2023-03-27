@@ -28,4 +28,15 @@ export default {
       return animalData;
     },
   },
+  Animal: {
+    species: (parent: any) => {
+      console.log(parent);
+      return speciesData.find((species) => species.id === parent.species);
+    },
+  },
+  Species: {
+    category: (parent: any) => {
+      return categoryData.find((category) => category.id === parent.category);
+    },
+  },
 };
