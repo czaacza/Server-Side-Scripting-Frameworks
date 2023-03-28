@@ -2,8 +2,29 @@ type Species {
   id: ID
   species_name: String
   category: Category
+  image: String
+  location: Point
+}
+
+type Point {
+  # Location type must equal "Point
+  type: LocationType
+  coordinates: [Float]
+}
+
+enum LocationType {
+  Point
+}
+
+input InputPoint {
+  type: LocationType
+  coordinates: [Float]
 }
 
 type Mutation {
-  addSpecies(species_name: String!, category: ID!): Species
+  addSpecies(
+    species_name: String!
+    category: ID!
+    location: InputPoint
+  ): Species
 }

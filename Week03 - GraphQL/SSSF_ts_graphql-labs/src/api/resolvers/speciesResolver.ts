@@ -1,4 +1,6 @@
+import imageFromWikipedia from '../../functions/imageFromWikipedia';
 import {Animal} from '../../interfaces/Animal';
+import {Species} from '../../interfaces/Species';
 import speciesModel from '../models/speciesModel';
 
 export default {
@@ -9,11 +11,13 @@ export default {
     },
   },
   Mutation: {
-    addSpecies: async (_: any, args: any) => {
+    addSpecies: async (_: any, args: Species) => {
+      const image = await imageFromWikipedia(args.species_name);
+      args.image = image;
+
       console.log(args);
       const species = new speciesModel(args);
-      await species.save();
-      return species;
+      return await species.save();
     },
   },
 };
