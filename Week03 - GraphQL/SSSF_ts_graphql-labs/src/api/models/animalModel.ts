@@ -15,7 +15,7 @@ const animalSchema = new mongoose.Schema<Animal>({
   },
   birthdate: {
     type: Date,
-    required: true,
+    // required: true,
   },
 });
 

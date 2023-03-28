@@ -8,4 +8,6 @@ type Animal {
 
 type Query {
   animals: [Animal]
+  species: [Species]
+  categories: [Category]
 }

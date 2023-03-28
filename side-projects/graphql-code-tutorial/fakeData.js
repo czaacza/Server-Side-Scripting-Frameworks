@@ -4,7 +4,23 @@ UserList = [
     name: 'John Doe',
     username: 'johndoe',
     age: 30,
-    nationality: 'American',
+    nationality: 'AMERICAN',
+    friends: [
+      {
+        id: 2,
+        name: 'Jane Doe',
+        username: 'janedoe',
+        age: 25,
+        nationality: 'AMERICAN',
+      },
+      {
+        id: 5,
+        name: 'David Monkey',
+        username: 'davidmonkey',
+        age: 45,
+        nationality: 'GERMAN',
+      },
+    ],
   },
   // create 5 more users with different data
   {
@@ -12,28 +28,28 @@ UserList = [
     name: 'Jane Doe',
     username: 'janedoe',
     age: 25,
-    nationality: 'American',
+    nationality: 'AMERICAN',
   },
   {
     id: 3,
     name: 'John Smith',
     username: 'johnsmith',
     age: 35,
-    nationality: 'British',
+    nationality: 'BRITISH',
   },
   {
     id: 4,
     name: 'Jane Smith',
     username: 'janesmith',
     age: 40,
-    nationality: 'British',
+    nationality: 'BRITISH',
   },
   {
     id: 5,
     name: 'David Monkey',
     username: 'davidmonkey',
     age: 45,
-    nationality: 'German',
+    nationality: 'GERMAN',
   },
 ];
 

@@ -3,3 +3,7 @@ type Species {
   species_name: String
   category: Category
 }
+
+type Mutation {
+  addSpecies(species_name: String!, category: ID!): Species
+}
