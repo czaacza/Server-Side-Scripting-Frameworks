@@ -1,13 +1,19 @@
 scalar DateTime
 
 type Animal {
-  id: ID
-  animal_name: String
-  species: Species
+  id: ID!
+  animal_name: String!
+  species: Species!
+  birthdate: String
 }
 
 type Query {
-  animals: [Animal]
-  species: [Species]
-  categories: [Category]
+  animals: [Animal!]!
+  animal(id: ID!): Animal
+}
+
+type Mutation {
+  addAnimal(animal_name: String!, species: ID!, date: String): Animal
+  modifyAnimal(id: ID!, animal_name: String, species: ID, date: String): Animal
+  deleteAnimal(id: ID!): Animal
 }

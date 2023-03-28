@@ -4,6 +4,14 @@ import {Species} from '../../interfaces/Species';
 import speciesModel from '../models/speciesModel';
 
 export default {
+  Query: {
+    species: async () => {
+      return await speciesModel.find();
+    },
+    speciesById: async (_: undefined, args: Species) => {
+      return await speciesModel.findById(args.id);
+    },
+  },
   Animal: {
     species: async (parent: Animal) => {
       console.log(parent);
@@ -18,6 +26,20 @@ export default {
       console.log(args);
       const species = new speciesModel(args);
       return await species.save();
+    },
+
+    modifySpecies: async (_: undefined, args: Species) => {
+      console.log(args);
+      const species = speciesModel.findByIdAndUpdate(args.id, args, {
+        new: true,
+      });
+      return species;
+    },
+
+    deleteSpecies: async (_: undefined, args: Species) => {
+      console.log(args);
+      const species = speciesModel.findByIdAndDelete(args.id);
+      return species;
     },
   },
 };
