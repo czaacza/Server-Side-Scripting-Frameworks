@@ -9,7 +9,7 @@ type Animal {
 
 type Query {
   animals: [Animal!]!
-  animal(id: ID!): Animal
+  animalById(id: ID!): Animal
 }
 
 type Mutation {

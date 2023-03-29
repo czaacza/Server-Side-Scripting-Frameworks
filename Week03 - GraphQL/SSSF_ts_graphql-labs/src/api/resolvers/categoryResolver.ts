@@ -7,7 +7,7 @@ export default {
     categories: async () => {
       return await categoryModel.find();
     },
-    category: async (_: undefined, args: Category) => {
+    categoryById: async (_: undefined, args: Category) => {
       return await categoryModel.findById(args.id);
     },
   },

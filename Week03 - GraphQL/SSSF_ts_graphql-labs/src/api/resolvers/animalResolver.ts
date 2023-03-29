@@ -8,7 +8,7 @@ export default {
     animals: async () => {
       return await animalModel.find();
     },
-    animal: async (_: undefined, args: Animal) => {
+    animalById: async (_: undefined, args: Animal) => {
       return await animalModel.findById(args.id);
     },
   },

@@ -5,7 +5,7 @@ type Category {
 
 type Query {
   categories: [Category!]!
-  category(id: ID!): Category
+  categoryById(id: ID!): Category
 }
 
 type Mutation {
