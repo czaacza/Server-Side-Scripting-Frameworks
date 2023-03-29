@@ -11,8 +11,11 @@ import {
   ApolloServerPluginLandingPageProductionDefault,
 } from '@apollo/server/plugin/landingPage/default';
 import {notFound, errorHandler} from './middlewares';
+import api from './api';
 
 const app = express();
+
+app.use('/api/v1', api);
 
 (async () => {
   try {

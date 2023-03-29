@@ -6,6 +6,7 @@ type Animal {
   species: Species!
   birthdate: String
   image: String
+  location: Point
 }
 
 type Query {
