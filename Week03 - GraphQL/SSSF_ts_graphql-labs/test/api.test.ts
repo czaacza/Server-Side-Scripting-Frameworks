@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import {TestCategory} from '../src/interfaces/Category';
 import randomstring from 'randomstring';
 import {getCategoryById, postCategory} from './categoryFunctions';
+import {getAnimals, modifyAnimal} from './animalFunctions';
+import {TestAnimal} from '../src/interfaces/Animal';
 
 describe('GET /graphql', () => {
   beforeAll(async () => {
@@ -26,5 +28,25 @@ describe('GET /graphql', () => {
 
   it('should get a category by id', async () => {
     await getCategoryById(app, newCategory.id!);
+  });
+
+  // test for animal queries
+  let animals: TestAnimal[] = [];
+
+  it('should get all animals', async () => {
+    animals = await getAnimals(app);
+  });
+
+  // test for animal mutations
+  it('should modify an animal', async () => {
+    const animal: TestAnimal = {
+      id: animals[0].id,
+      animal_name: 'test animal',
+      birthdate: '2020-03-03',
+    };
+
+    console.log(animal);
+
+    const modifiedAnimal = await modifyAnimal(app, animal);
   });
 });

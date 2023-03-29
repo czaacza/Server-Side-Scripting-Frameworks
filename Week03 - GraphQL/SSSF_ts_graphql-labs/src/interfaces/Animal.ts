@@ -12,11 +12,11 @@ interface Animal extends Document {
 
 interface TestAnimal {
   id?: string;
-  animal_name: string;
-  species: string;
-  birthdate: Date;
-  image: string;
-  location: Point;
+  animal_name?: string;
+  species?: string;
+  birthdate?: String;
+  image?: string;
+  location?: Point;
 }
 
 export {Animal, TestAnimal};

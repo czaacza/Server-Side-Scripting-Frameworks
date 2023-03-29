@@ -4,18 +4,37 @@ type Animal {
   id: ID!
   animal_name: String!
   species: Species!
-  birthdate: String
+  birthdate: DateTime
   image: String
   location: Point
+}
+
+input InputLocation {
+  lat: Float!
+  lng: Float!
 }
 
 type Query {
   animals: [Animal!]!
   animalById(id: ID!): Animal
+  animalByArea(topRight: InputLocation!, bottomLeft: InputLocation!): [Animal!]!
 }
 
 type Mutation {
-  addAnimal(animal_name: String!, species: ID!, date: String): Animal
-  modifyAnimal(id: ID!, animal_name: String, species: ID, date: String): Animal
+  addAnimal(
+    animal_name: String!
+    species: ID!
+    birthdate: DateTime!
+    image: String!
+    location: InputPoint!
+  ): Animal
+
+  modifyAnimal(
+    id: ID!
+    animal_name: String
+    species: ID
+    birthdate: DateTime
+  ): Animal
+
   deleteAnimal(id: ID!): Animal
 }
