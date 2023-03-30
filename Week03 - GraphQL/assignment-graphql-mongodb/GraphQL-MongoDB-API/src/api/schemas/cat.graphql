@@ -1,0 +1,7 @@
+# TODO: create graphql schema for cat. Example type definitions:
+# Cat: id, cat_name, weight, birthdate, owner, location, filename
+# Location: type, coordinates
+# Coordinates: lat, lng
+# LocationInput: type, coordinates
+# Query: catById, cats, catsByArea, catsByOwner
+# Mutation: createCat, updateCat, deleteCat

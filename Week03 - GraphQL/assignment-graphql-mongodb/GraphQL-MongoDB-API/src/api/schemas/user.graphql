@@ -1,0 +1,4 @@
+# TODO: create graphql schema for User. Example type definitions:
+# User: id, user_name, email
+# Query: users, userById
+# Mutation: createUser, updateUser, deleteUser
