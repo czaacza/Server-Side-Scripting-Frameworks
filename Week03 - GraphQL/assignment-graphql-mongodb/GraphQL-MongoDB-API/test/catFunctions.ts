@@ -359,7 +359,7 @@ const getCatByOwner = (
       .set('Content-type', 'application/json')
       .send({
         query: `query CatsByOwner($ownerId: ID!) {
-          catsByOwner(ownerId: $ownerId) {
+          catsByOwner(owner: $ownerId) {
             birthdate
             cat_name
             filename

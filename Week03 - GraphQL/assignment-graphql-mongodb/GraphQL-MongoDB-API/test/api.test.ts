@@ -40,7 +40,7 @@ describe('Testing graphql api', () => {
   });
 
   // test create user
-  let user: UserTest;
+  let user: UserTest = {};
   const testUser: UserTest = {
     user_name: 'Test User ' + randomstring.generate(7),
     email: randomstring.generate(9) + '@user.fi',
@@ -69,6 +69,7 @@ describe('Testing graphql api', () => {
   // test cat upload
   let uploadData1: UploadMessageResponse;
   let catData1: any;
+
   it('should upload a cat', async () => {
     uploadData1 = await postFile(app);
     catData1 = {
@@ -84,7 +85,6 @@ describe('Testing graphql api', () => {
   // test post cat data
   let catID1: string;
   it('should post all cat data', async () => {
-    console.log(catData1);
     const cat = await postCat(app, catData1);
     catID1 = cat.id!;
   });
@@ -101,6 +101,7 @@ describe('Testing graphql api', () => {
 
   // get cats by user id
   it('should return cats by current user', async () => {
+    console.log('user:', user);
     await getCatByOwner(app, user.id!);
   });
 
