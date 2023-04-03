@@ -1,4 +1,4 @@
-# SSSF week 3 exercise. Submit to Oma
+# SSSF week 3 exercise
 
 Convert the REST API from last weeks assignment to GraphQL.
 

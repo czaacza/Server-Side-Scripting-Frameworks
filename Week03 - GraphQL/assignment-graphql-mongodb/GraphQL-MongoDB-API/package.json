@@ -7,6 +7,8 @@
     "start": "node dist/src/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
+    "copyGraphql": "copyfiles --error src/api/schemas/*.graphql dist",
+    "postbuild": "npm run copyGraphql",
     "lint": "eslint --fix src test",
     "test": "jest --detectOpenHandles --forceExit"
   },
@@ -51,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "chalk": "^5.2.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.32.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
