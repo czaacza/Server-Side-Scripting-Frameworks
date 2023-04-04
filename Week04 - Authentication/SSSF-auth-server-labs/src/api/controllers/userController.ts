@@ -1,12 +1,4 @@
 import jwt from 'jsonwebtoken';
-// Description: This file contains the functions for the user routes
-// TODO: add function check, to check if the server is alive
-// TODO: add function to get all users
-// TODO: add function to get a user by id
-// TODO: add function to create a user
-// TODO: add function to update a user
-// TODO: add function to delete a user
-// TODO: add function to check if a token is valid
 
 import {NextFunction, Request, Response} from 'express';
 import userModel from '../models/userModel';
@@ -197,4 +189,4 @@ const checkToken = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export {check, userListGet, userGet, userPost, userPut, userDelete};
+export {check, userListGet, userGet, userPost, userPut, userDelete, checkToken};

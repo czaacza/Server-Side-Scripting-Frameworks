@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   check,
-  // checkToken,
+  checkToken,
   userDelete,
   userGet,
   userListGet,
@@ -19,7 +19,7 @@ router
   .put(authenticate, userPut)
   .delete(authenticate, userDelete);
 
-// router.get('/token', authenticate, checkToken);
+router.get('/token', authenticate, checkToken);
 
 router.route('/check').get(check);
 
