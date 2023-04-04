@@ -23,7 +23,6 @@ const login = async (
     }
     const passwordHashed = bcrypt.hashSync(password, salt);
 
-    console.log(user.password);
     if (bcrypt.compareSync(passwordHashed, user.password)) {
       throw new CustomError('Incorrect password', 404);
     }

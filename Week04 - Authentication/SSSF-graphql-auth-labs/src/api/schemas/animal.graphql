@@ -1,0 +1,38 @@
+scalar DateTime
+
+type Animal {
+  id: ID!
+  animal_name: String!
+  species: Species!
+  image: String
+  location: Point
+  birthdate: DateTime
+}
+
+input Coordinates {
+  lat: Float!
+  lng: Float!
+}
+
+type Query {
+  animals: [Animal]
+  animalById(id: ID!): Animal
+  animalsByArea(topRight: Coordinates!, bottomLeft: Coordinates!): [Animal]
+}
+
+type Mutation {
+  addAnimal(
+    animal_name: String!
+    species: ID!
+    image: String!
+    location: InputPoint!
+    birthdate: DateTime!
+  ): Animal
+  modifyAnimal(
+    id: ID!
+    animal_name: String
+    species: ID
+    birthdate: DateTime
+  ): Animal
+  deleteAnimal(id: ID!): Animal
+}
