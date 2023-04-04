@@ -182,8 +182,6 @@ const checkToken = async (req: Request, res: Response, next: NextFunction) => {
     const newToken = jwt.sign(
       {
         id: result._id,
-        user_name: result.user_name,
-        email: result.email,
       },
       process.env.JWT_SECRET as string
     );
