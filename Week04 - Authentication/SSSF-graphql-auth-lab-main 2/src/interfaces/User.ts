@@ -6,4 +6,9 @@ interface User {
   token?: string;
 }
 
-export {User};
+interface UserIdWithToken {
+  id: string;
+  token: string;
+}
+
+export {User, UserIdWithToken};

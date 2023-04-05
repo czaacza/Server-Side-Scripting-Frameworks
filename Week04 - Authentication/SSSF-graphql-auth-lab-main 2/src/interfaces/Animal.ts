@@ -1,5 +1,5 @@
 import {Point} from 'geojson';
-import {Document} from 'mongoose';
+import {Document, Types} from 'mongoose';
 import {Species} from './Species';
 
 interface Animal extends Document {
@@ -8,6 +8,7 @@ interface Animal extends Document {
   birthdate: Date;
   image: string;
   location: Point;
+  owner: Types.ObjectId;
 }
 
 interface TestAnimal {
@@ -17,6 +18,7 @@ interface TestAnimal {
   birthdate?: Date;
   image?: string;
   location?: Point;
+  owner?: string;
 }
 
 export {Animal, TestAnimal};

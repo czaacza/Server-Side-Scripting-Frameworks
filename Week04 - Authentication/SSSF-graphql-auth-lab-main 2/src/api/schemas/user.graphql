@@ -1,15 +1,7 @@
-#TODO User type
-#TODO TokenMessage type
-#TODO Credentials input
-#TODO UserInput input
-#TODO Query type to get all users, get user by id, and check token
-#TODO Mutation type to login, register, update user, and delete user
-
 type User {
   id: ID!
   user_name: String!
   email: String!
-  password: String!
 }
 
 type TokenMessage {
@@ -29,15 +21,21 @@ input UserInput {
   password: String!
 }
 
+input UserModify {
+  user_name: String
+  email: String
+  password: String
+}
+
 type Query {
   users: [User]
   userById(id: ID!): User
-  checkToken(token: String!): TokenMessage
+  checkToken: TokenMessage
 }
 
 type Mutation {
   login(credentials: Credentials!): TokenMessage
   register(user: UserInput!): TokenMessage
-  updateUser(id: ID!, user: UserInput!): TokenMessage
-  deleteUser(id: ID!): TokenMessage
+  updateUser(user: UserModify!): TokenMessage
+  deleteUser: TokenMessage
 }

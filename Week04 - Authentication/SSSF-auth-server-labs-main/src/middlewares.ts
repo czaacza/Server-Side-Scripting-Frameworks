@@ -31,38 +31,42 @@ const authenticate = async (
   next: NextFunction
 ) => {
   try {
-    console.log('authenticate');
-    // extract bearer token from header
-    const bearerHeader = req.headers['authorization'];
-    if (!bearerHeader || typeof bearerHeader === 'undefined') {
-      next(new CustomError('token not valid', 403));
+    const bearer = req.headers.authorization;
+    if (!bearer) {
+      next(new CustomError('No token provided', 401));
       return;
     }
 
-    // extract token from bearer token
-    const bearer = bearerHeader.split(' ');
-    const token = bearer[1];
+    const token = bearer.split(' ')[1];
+
     if (!token) {
-      next(new CustomError('token not valid', 403));
+      next(new CustomError('No token provided', 401));
       return;
     }
 
-    console.log('token', token);
-    // extract user from token
-    const user = jwt.verify(
+    const userFromToken = jwt.verify(
       token,
       process.env.JWT_SECRET as string
     ) as OutputUser;
-    // check that user is in database
-    console.log('authenticate', user);
-    const result = await userModel.findById(user.id);
-    if (result) {
-      console.log(user, result);
-      res.locals.user = user;
-      next();
-    } else {
-      next(new CustomError('token not valid', 403));
+
+    const user = await userModel
+      .findById(userFromToken.id)
+      .select('-password -role');
+
+    if (!user) {
+      next(new CustomError('Token not valid', 403));
+      return;
     }
+
+    const outputUser: OutputUser = {
+      id: user._id,
+      email: user.email,
+      user_name: user.user_name,
+    };
+
+    res.locals.user = outputUser;
+
+    next();
   } catch (error) {
     next(new CustomError((error as Error).message, 400));
   }
