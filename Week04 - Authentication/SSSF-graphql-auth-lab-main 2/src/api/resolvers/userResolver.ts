@@ -61,7 +61,6 @@ export default {
         });
       }
       const userFromAuth = await response.json();
-      console.log('userFromAuth:', userFromAuth);
       return userFromAuth;
     },
   },

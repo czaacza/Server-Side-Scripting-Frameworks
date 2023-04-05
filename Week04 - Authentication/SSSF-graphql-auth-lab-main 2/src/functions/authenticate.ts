@@ -12,6 +12,7 @@ export default async (req: Request) => {
   if (!token) {
     return {};
   }
+  console.log('token: ', token);
 
   const userFromToken = jwt.verify(token, process.env.JWT_SECRET as string) as {
     id: string;

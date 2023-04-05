@@ -79,6 +79,7 @@ const userPut = async (
 ) => {
   try {
     const userFromToken = res.locals.user;
+    console.log('userfromtoken:', userFromToken);
 
     const user = req.body;
     if (user.password) {
@@ -142,6 +143,22 @@ const checkToken = async (
   res: Response<{}, {user: OutputUser}>,
   next: NextFunction
 ) => {
+  const headers = req.headers;
+  if (!headers.authorization) {
+    next(new CustomError('No token provided', 401));
+    return;
+  }
+  const token = headers.authorization.split(' ')[1];
+  if (!token) {
+    next(new CustomError('No token provided', 401));
+    return;
+  }
+  const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+  if (!decoded) {
+    next(new CustomError('Invalid token', 401));
+    return;
+  }
+
   const userFromToken = res.locals.user;
 
   const message: DBMessageResponse = {

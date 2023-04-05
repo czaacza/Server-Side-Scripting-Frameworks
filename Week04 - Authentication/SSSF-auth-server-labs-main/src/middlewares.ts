@@ -38,6 +38,7 @@ const authenticate = async (
     }
 
     const token = bearer.split(' ')[1];
+    console.log('token:', token);
 
     if (!token) {
       next(new CustomError('No token provided', 401));
