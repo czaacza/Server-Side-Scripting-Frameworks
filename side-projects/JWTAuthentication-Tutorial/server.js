@@ -9,7 +9,7 @@ app.use(express.json());
 
 const posts = [
   {
-    username: 'John',
+    username: 'admin',
     title: 'Post 1',
   },
   {
@@ -18,7 +18,7 @@ const posts = [
   },
 ];
 
-app.get('/posts', (req, res) => {
+app.get('/posts', authenticateToken, (req, res) => {
   res.json(posts.filter((post) => post.username === req.user.name));
 });
 
@@ -33,20 +33,26 @@ app.post('/login', authenticateToken, (req, res) => {
 
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
-  console.log('accessToken: ', accessToken);
+  res.json({ accessToken: accessToken });
+});
+
+app.post('/register', (req, res) => {
+  // Register User
+  const username = req.body.username;
+  const user = { name: username };
+
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
   res.json({ accessToken: accessToken });
 });
 
 function authenticateToken(req, res, next) {
   const bearer = req.headers['authorization'];
-  if (bearer == null) return res.sendStatus(401);
 
-  const token = bearer.split(' ')[1];
+  const token = bearer && bearer.split(' ')[1];
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    console.log('token:', token);
-
+    console.log('succesfully authenticated, user:', user);
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
