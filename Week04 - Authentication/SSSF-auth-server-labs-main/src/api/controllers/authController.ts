@@ -13,8 +13,8 @@ const login = async (
   res: Response,
   next: NextFunction
 ) => {
-  const {username, password} = req.body;
   try {
+    const {username, password} = req.body;
     const user = await userModel.findOne({email: username});
     if (!user) {
       next(new CustomError('Incorrect username/password', 200));
@@ -26,7 +26,10 @@ const login = async (
       return;
     }
 
-    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET as string);
+    const token = jwt.sign(
+      {id: user._id, role: user.role},
+      process.env.JWT_SECRET as string
+    );
 
     const outputUser: OutputUser = {
       user_name: user.user_name,

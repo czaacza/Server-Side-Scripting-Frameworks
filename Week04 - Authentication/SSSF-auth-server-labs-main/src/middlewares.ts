@@ -38,7 +38,6 @@ const authenticate = async (
     }
 
     const token = bearer.split(' ')[1];
-    console.log('token:', token);
 
     if (!token) {
       next(new CustomError('No token provided', 401));
@@ -50,9 +49,7 @@ const authenticate = async (
       process.env.JWT_SECRET as string
     ) as OutputUser;
 
-    const user = await userModel
-      .findById(userFromToken.id)
-      .select('-password -role');
+    const user = await userModel.findById(userFromToken.id).select('-password');
 
     if (!user) {
       next(new CustomError('Token not valid', 403));
@@ -63,6 +60,7 @@ const authenticate = async (
       id: user._id,
       email: user.email,
       user_name: user.user_name,
+      role: user.role,
     };
 
     res.locals.user = outputUser;
