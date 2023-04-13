@@ -1,0 +1,52 @@
+scalar DateTime
+
+type Cat {
+  id: ID!
+  cat_name: String!
+  weight: Float!
+  birthdate: DateTime
+  owner: User!
+  location: Location!
+  filename: String!
+}
+
+type Location {
+  type: String!
+  coordinates: [Float]!
+}
+
+input Coordinates {
+  lat: Float!
+  lng: Float!
+}
+
+input LocationInput {
+  type: String!
+  coordinates: [Float]!
+}
+
+type Query {
+  catById(id: ID!): Cat
+  cats: [Cat]
+  catsByArea(topRight: Coordinates!, bottomLeft: Coordinates!): [Cat]
+  catsByOwner(ownerId: ID!): [Cat]
+}
+
+type Mutation {
+  createCat(
+    cat_name: String!
+    weight: Float!
+    birthdate: DateTime!
+    location: LocationInput!
+    filename: String!
+  ): Cat
+  updateCat(id: ID!, cat_name: String, weight: Float, birthdate: DateTime): Cat
+  deleteCat(id: ID!): Cat
+  updateCatAsAdmin(
+    id: ID!
+    cat_name: String
+    weight: Float
+    birthdate: DateTime
+  ): Cat
+  deleteCatAsAdmin(id: ID!): Cat
+}

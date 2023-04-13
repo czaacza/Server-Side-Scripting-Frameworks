@@ -6,6 +6,17 @@ import {UserIdWithToken} from '../../interfaces/User';
 import {GraphQLError} from 'graphql';
 import {Types} from 'mongoose';
 
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '../../interfaces/ISocket';
+
+import {Socket, io} from 'socket.io-client';
+const socketURL = process.env.VITE_SOCKET_URL as string;
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+  io(socketURL);
+
 export default {
   Query: {
     animals: async () => {
@@ -39,7 +50,8 @@ export default {
       args.owner = user.id as unknown as Types.ObjectId;
       console.log(args);
       const animal = new animalModel(args);
-      return await animal.save();
+      const result = await animal.save();
+      socket.emit('update', 'animal');
     },
     modifyAnimal: async (
       _parent: undefined,

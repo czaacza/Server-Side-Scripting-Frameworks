@@ -1,0 +1,17 @@
+#map {
+  height: 40vh;
+  width: 100%;
+}
+
+/* leaflet icons */
+.red-icon {
+  background: #ff6324;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.green-icon {
+  background: #27ba35;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}

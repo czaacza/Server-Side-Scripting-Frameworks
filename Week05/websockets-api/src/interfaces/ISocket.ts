@@ -7,18 +7,4 @@ interface ClientToServerEvents {
   update: (message: string) => void;
 }
 
-interface InterServerEvents {
-  ping: () => void;
-}
-
-interface SocketData {
-  name: string;
-  age: number;
-}
-
-export {
-  ServerToClientEvents,
-  ClientToServerEvents,
-  InterServerEvents,
-  SocketData,
-};
+export { ServerToClientEvents, ClientToServerEvents };
