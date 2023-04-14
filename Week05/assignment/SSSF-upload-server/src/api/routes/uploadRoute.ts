@@ -22,7 +22,7 @@ router
   .route('/')
   .post(
     authenticate,
-    upload.single('animal'),
+    upload.single('cat'),
     makeThumbnail,
     getCoordinates,
     uploadPost

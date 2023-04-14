@@ -39,9 +39,33 @@ app.use(express.json());
     // TODO Apply the permissions object to the schema
     // remember to change the typeDefs and resolvers to a schema object
 
+    const rateLimitRule = createRateLimitRule({
+      identifyContext: (ctx) => ctx.id,
+    });
+
+    const permissions = shield({
+      Mutation: {
+        login: rateLimitRule({window: '1s', max: 5}),
+      },
+    });
+
+    const schema = applyMiddleware(
+      makeExecutableSchema({
+        typeDefs,
+        resolvers,
+      }),
+      permissions
+    );
+
+    app.use(
+      helmet({
+        crossOriginEmbedderPolicy: false,
+        contentSecurityPolicy: false,
+      })
+    );
+
     const server = new ApolloServer<MyContext>({
-      typeDefs,
-      resolvers,
+      schema,
       introspection: true,
       plugins: [
         process.env.NODE_ENV === 'production'
