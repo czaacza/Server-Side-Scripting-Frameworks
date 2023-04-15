@@ -1,0 +1,51 @@
+body {
+  font-family: sans-serif;
+}
+
+/* Make content area fill the entire browser window */
+html,
+.fullscreen {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+@font-face {
+  font-family: Cantarell;
+  src: url(../Cantarell-Regular.ttf);
+}
+
+body {
+  background-image: url(../images/bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  font-family: Cantarell;
+}
+
+/* Center the content in the browser window */
+.container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 3rem;
+}
+
+.svg-icon {
+  width: 50px;
+}
+
+h2 {
+  margin: 32px 0 0 0;
+}
+.text-field {
+  width: 500px;
+  text-align: center;
+}

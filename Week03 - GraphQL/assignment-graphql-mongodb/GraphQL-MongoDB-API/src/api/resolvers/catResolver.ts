@@ -39,7 +39,9 @@ export default {
 
   Mutation: {
     createCat: async (parent: any, args: Cat) => {
+      console.log('args', args);
       const cat = new CatModel(args);
+      console.log('cat', cat);
       return await cat.save();
     },
     updateCat: async (parent: any, args: Cat) => {

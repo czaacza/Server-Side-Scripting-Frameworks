@@ -68,7 +68,7 @@ describe('Testing graphql api', () => {
 
   const adminUser: UserTest = {
     email: 'admin@metropolia.fi',
-    password: '12345',
+    password: '1234',
   };
 
   // create first user
@@ -137,7 +137,7 @@ describe('Testing graphql api', () => {
   // test post cat data
   let catID1: string;
   it('should post cat data with file and location', async () => {
-    console.log(catData1);
+    console.log('catData1', catData1);
     const cat = await postCat(app, catData1, userData.token!);
     catID1 = cat.id!;
   });
@@ -228,6 +228,8 @@ describe('Testing graphql api', () => {
 
   // test delete user by id as admin
   it('should delete a user as admin', async () => {
+    console.log('userData2: ', userData2);
+    console.log('adminData: ', adminData);
     await adminDeleteUser(app, userData2.user.id!, adminData.token!);
   });
 

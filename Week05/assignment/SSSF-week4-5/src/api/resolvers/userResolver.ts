@@ -15,8 +15,24 @@
 import {GraphQLError} from 'graphql';
 import {User, UserIdWithToken} from '../../interfaces/User';
 import LoginMessageResponse from '../../interfaces/LoginMessageResponse';
+import {Cat} from '../../interfaces/Cat';
 
 export default {
+  Cat: {
+    owner: async (parent: Cat) => {
+      const response = await fetch(
+        `${process.env.AUTH_URL}/users/${parent.owner}`
+      );
+      if (!response.ok) {
+        throw new GraphQLError(response.statusText, {
+          extensions: {code: 'NOT_FOUND'},
+        });
+      }
+      const user = (await response.json()) as User;
+      return user;
+    },
+  },
+
   Query: {
     users: async () => {
       const response = await fetch(`${process.env.AUTH_URL}/users`);
@@ -139,6 +155,74 @@ export default {
       }
 
       const response = await fetch(`${process.env.AUTH_URL}/users`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new GraphQLError(response.statusText, {
+          extensions: {code: 'NOT_FOUND'},
+        });
+      }
+      const userFromDelete = (await response.json()) as LoginMessageResponse;
+      return userFromDelete;
+    },
+
+    updateUserAsAdmin: async (
+      _parent: unknown,
+      args: {user: User; id: string},
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      if (user.role !== 'admin') {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      const response = await fetch(`${process.env.AUTH_URL}/users/${args.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(args.user),
+      });
+      if (!response.ok) {
+        throw new GraphQLError(response.statusText, {
+          extensions: {code: 'NOT_FOUND'},
+        });
+      }
+      const userFromPut = (await response.json()) as LoginMessageResponse;
+      return userFromPut;
+    },
+
+    deleteUserAsAdmin: async (
+      _parent: unknown,
+      args: {id: string},
+      user: UserIdWithToken
+    ) => {
+      console.log('user', user);
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      if (user.role !== 'admin') {
+        throw new GraphQLError('You are not an admin', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      const response = await fetch(`${process.env.AUTH_URL}/users/${args.id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

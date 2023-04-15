@@ -43,11 +43,16 @@ app.use(express.json());
       identifyContext: (ctx) => ctx.id,
     });
 
-    const permissions = shield({
-      Mutation: {
-        login: rateLimitRule({window: '1s', max: 5}),
+    const permissions = shield(
+      {
+        Mutation: {
+          login: rateLimitRule({window: '1s', max: 5}),
+        },
       },
-    });
+      {
+        debug: true,
+      }
+    );
 
     const schema = applyMiddleware(
       makeExecutableSchema({
