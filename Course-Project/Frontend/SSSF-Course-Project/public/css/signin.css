@@ -1,0 +1,54 @@
+.signin {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  height: 700px;
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  display: none;
+  z-index: 101;
+  animation-name: slideIn;
+  animation-duration: 0.5s;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.signin-container {
+  position: relative;
+}
+.signin-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.signin-container {
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.sign-in-subtitle {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.modal-form-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

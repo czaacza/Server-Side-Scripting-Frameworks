@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.form-control::placeholder {
+  font-weight: 200;
+  color: #999;
+}
+
+/* navbar  */
+
+.navbar {
+  background-color: #f5f5f5;
+  padding: 18px 48px;
+  font-size: 18px;
+}
+
+.navbar-collapse > ul > li {
+  margin-left: 14px;
+}
+.signin-btn {
+  padding: 12px 16px !important;
+}
+
+.nav-link {
+  padding: 12px 10px !important;
+}
+
+.signup-btn {
+  margin-right: 48px;
+  padding: 12px 16px !important;
+  color: #fff !important;
+}
+
+.signin-btn:hover,
+.signup-btn:hover {
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #38b6ff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #3297d1;
+}
+
+.btn-secondary {
+  background-color: #5ce1e6;
+}
+
+.btn-login {
+  padding: 12px 16px !important;
+  border-radius: 5px;
+}
+
+.logout-btn {
+  padding: 12px 16px !important;
+  color: #fff !important;
+  margin-right: 40px;
+}
+
+.btn-account {
+  padding: 12px 16px !important;
+  border-radius: 5px;
+  color: #fff !important;
+}
+modal-content {
+  position: relative;
+}
+
+.modal-img-container {
+  position: absolute;
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.modal-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-form-container {
+  padding-left: 52%;
+}
+
+.hero-section {
+  margin-top: 15vh;
+}
+
+.hero-heading {
+  font-size: 48px;
+}
+
+.product-section {
+  margin-top: 16vh;
+  background-color: #f5f5f5;
+  padding: 5% 0;
+}
+
+/* products session */
+.add-to-cart-btn {
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+/* cart section */
+.cart-section {
+  margin-top: 10vh;
+}
+
+.cart-item-select {
+  width: 50%;
+}
+
+/* checkout section */
+/* .cart-body {
+  background-image: url('../img/bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+} */
+
+.checkout-body {
+  background-image: url('../img/bg.png');
+  background-repeat: no-repeat;
+  /* background-size: cover; */
+  background-position: center;
+}
+.checkout-section {
+  margin: 10vh 0;
+}

@@ -1,0 +1,25 @@
+{
+  "name": "sssf-course-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.3.5",
+    "dotenv": "^16.0.3",
+    "fetch": "^1.1.0",
+    "mongoose": "^7.0.4",
+    "navigo": "^8.11.1",
+    "node-fetch": "^3.3.1",
+    "vite-plugin-handlebars": "^1.6.0"
+  }
+}
