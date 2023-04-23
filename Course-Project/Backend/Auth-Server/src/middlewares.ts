@@ -1,6 +1,9 @@
+import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from './interfaces/ErrorResponse';
 import CustomError from './classes/CustomError';
+import userModel from './api/models/userModel';
+import { UserOutput } from './interfaces/User';
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
   const error = new CustomError(`🔍 - Not Found - ${req.originalUrl}`, 404);
@@ -22,27 +25,50 @@ const errorHandler = (
   });
 };
 
-const checkAuthenticated = (
+const authenticate = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
+  try {
+    const bearer = req.headers.authorization;
+    if (!bearer) {
+      next(new CustomError('No token provided', 401));
+      return;
+    }
 
-  res.redirect('/login');
+    const token = bearer.split(' ')[1];
+
+    if (!token) {
+      next(new CustomError('No token provided', 401));
+      return;
+    }
+
+    const userFromToken = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as UserOutput;
+
+    const user = await userModel.findById(userFromToken.id).select('-password');
+
+    if (!user) {
+      next(new CustomError('Token not valid', 403));
+      return;
+    }
+
+    const userOutput: UserOutput = {
+      id: user._id,
+      email: user.email,
+      username: user.username,
+      isAdmin: user.isAdmin,
+    };
+
+    res.locals.user = userOutput;
+
+    next();
+  } catch (error) {
+    next(new CustomError((error as Error).message, 400));
+  }
 };
 
-const checkNotAuthenticated = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.isAuthenticated()) {
-    return res.redirect('/');
-  }
-  next();
-};
-
-export { notFound, errorHandler, checkAuthenticated, checkNotAuthenticated };
+export { notFound, errorHandler, authenticate };

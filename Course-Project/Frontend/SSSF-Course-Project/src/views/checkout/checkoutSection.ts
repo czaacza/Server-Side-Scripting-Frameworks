@@ -1,4 +1,29 @@
-export default function checkoutSection(user?: any, cart?: any): string {
+import { User } from '../../interfaces/User';
+
+export default function checkoutSection(user?: User, cart?: any): string {
+  const { firstName, lastName, phone } = user?.details || {
+    firstName: '',
+    lastName: '',
+    phone: '',
+  };
+
+  const cartItems = cart?.books
+    ?.map((cartItem: any) => {
+      const book = cartItem.book;
+      return `
+      <div class="row mb-3">
+        <img class="col-md-3" src="${book.image}" alt="" />
+        <div>
+          <p class="card-text">${book.title}</p>
+          <p class="card-text">${book.author}</p>
+          <p class="card-text">Quantity: ${cartItem.quantity}</p>
+        </div>
+      </div>
+      <hr />
+    `;
+    })
+    .join('');
+
   const modalHtml = `<section class="checkout-section">
     <div class="container">
       <h2 class="text-center mb-5">Checkout</h2>
@@ -8,45 +33,25 @@ export default function checkoutSection(user?: any, cart?: any): string {
             <h4 class="mb-4">Personal Information</h4>
             <div class="form-group">
               <label for="firstName">First Name</label>
-              <input type="text" class="form-control" id="firstName" value="${
-                user ? user.firstName : ''
-              }" required />
+              <input type="text" class="form-control" id="firstName" value="${firstName}" required />
             </div>
             <div class="form-group">
               <label for="lastName">Last Name</label>
-              <input type="text" class="form-control" id="lastName" value="${
-                user ? user.lastName : ''
-              }" required />
+              <input type="text" class="form-control" id="lastName" value="${lastName}" required />
             </div>
             <div class="form-group mt-5">
-              <label for="country">Country</label>
-              <input type="text" class="form-control" id="country" value="${
-                user ? user.country : ''
-              }" required />
-            </div>
-            <div class="form-group">
               <label for="phoneNumber">Phone Number</label>
-              <input type="tel" class="form-control" id="phoneNumber" value="${
-                user ? user.phoneNumber : ''
-              }" required />
+              <input type="tel" class="form-control" id="phoneNumber" value="${phone}" required />
             </div>
             <div class="form-group">
               <label for="emailAddress">Email Address</label>
-              <input
-                type="email"
-                class="form-control"
-                id="emailAddress"
-                value="${user ? user.email : ''}"
-                required
-              />
+              <input type="email" class="form-control" id="emailAddress" value="${
+                user ? user.email : ''
+              }" required />
             </div>
             <div class="form-group mt-5">
               <label for="emailAddress">Comments to the order</label>
-              <textarea
-                class="form-control"
-                id="exampleFormControlTextarea1"
-                rows="4"
-              ></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
             </div>
           </form>
         </div>
@@ -61,7 +66,7 @@ export default function checkoutSection(user?: any, cart?: any): string {
                         const book = cartItem.book;
                         return `
                           <div class="row mb-3">
-                            <img class="col-md-3" src="${book.image}" alt="" />
+                            <img class="col-md-3" src="img/${book.image}" alt="" />
                             <div>
                               <p class="card-text">${book.title}</p>
                               <p class="card-text">${book.author}</p>

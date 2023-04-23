@@ -5,14 +5,27 @@ import {
   addUser,
   getUserById,
   updateUser,
+  updateUserAsAdmin,
+  deleteUserAsAdmin,
+  checkToken,
 } from '../controllers/userController';
+import { authenticate } from '../../middlewares';
 
 const router = Router();
 
-router.get('/', getAllUsers);
-router.get('/:id', getUserById);
-router.post('/', addUser);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router
+  .route('/')
+  .get(getAllUsers)
+  .post(addUser)
+  .put(authenticate, updateUser)
+  .delete(authenticate, deleteUser);
+
+router.get('/token', authenticate, checkToken);
+
+router
+  .route('/:id')
+  .get(getUserById)
+  .put(authenticate, updateUserAsAdmin)
+  .delete(authenticate, deleteUserAsAdmin);
 
 export default router;

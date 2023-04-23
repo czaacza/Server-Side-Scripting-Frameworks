@@ -12,7 +12,6 @@ export default {
         });
       }
       const users = (await response.json()) as User[];
-      console.log('users', users);
       return users;
     },
 
@@ -32,8 +31,6 @@ export default {
       _args: unknown,
       user: UserIdWithToken
     ) => {
-      console.log(user);
-
       const response = await fetch(`${process.env.AUTH_URL}/users/token`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -71,7 +68,7 @@ export default {
     },
 
     register: async (_parent: unknown, args: {user: User}) => {
-      const response = await fetch(`${process.env.AUTH_URL}/users`, {
+      const response = await fetch(`${process.env.AUTH_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +150,7 @@ export default {
         });
       }
 
-      if (user.role !== 'admin') {
+      if (user.isAdmin === false) {
         throw new GraphQLError('Not authorized', {
           extensions: {code: 'NOT_AUTHORIZED'},
         });
@@ -181,14 +178,13 @@ export default {
       args: {id: string},
       user: UserIdWithToken
     ) => {
-      console.log('user', user);
       if (!user.token) {
         throw new GraphQLError('Not authorized', {
           extensions: {code: 'NOT_AUTHORIZED'},
         });
       }
 
-      if (user.role !== 'admin') {
+      if (user.isAdmin === false) {
         throw new GraphQLError('You are not an admin', {
           extensions: {code: 'NOT_AUTHORIZED'},
         });

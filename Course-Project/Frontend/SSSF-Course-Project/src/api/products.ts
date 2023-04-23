@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export async function fetchProducts(): Promise<any[]> {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/books`);
+    const response = await axios.get(`${import.meta.env.VITE_AUTH_URL}/books`);
 
     if (response.status === 200) {
       return response.data;

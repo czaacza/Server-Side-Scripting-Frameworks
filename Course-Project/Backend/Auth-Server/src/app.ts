@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import Logging from './utils/Logging';
 
-import { notFound, errorHandler, checkNotAuthenticated } from './middlewares';
+import { notFound, errorHandler } from './middlewares';
 import api from './api';
 
 import flash from 'express-flash';

@@ -1,8 +1,8 @@
 import navbar from '../components/navbar';
 import hero from './hero';
-import popup from './popup';
+import popup from '../components/popup';
 import products from './products';
-import signin from './signin';
+import signin from '../components/signin';
 import testimonials from './testimonials';
 
 export default function index(user?: any, books?: any, cart?: any): string {

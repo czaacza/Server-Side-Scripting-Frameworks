@@ -1,11 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { login, logout, register } from '../controllers/authController';
-import { checkAuthenticated, checkNotAuthenticated } from '../../middlewares';
+import { Router } from 'express';
+import { login, register } from '../controllers/authController';
 
 const router = Router();
 
-router.post('/register', checkNotAuthenticated, register);
-router.post('/login', checkNotAuthenticated, login);
-router.post('/logout', checkAuthenticated, logout);
+router.post('/register', register);
+router.post('/login', login);
 
 export default router;

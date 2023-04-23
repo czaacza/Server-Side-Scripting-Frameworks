@@ -1,6 +1,6 @@
 export default function signin(): string {
   const modalHtml = `
-    <div class="signin-container">
+    <div class="signin-container" style: "position: relative">
       <div class="modal-content row signin" id="signin">
         <div class="modal-img-container">
           <img src="/img/signin-left.png" class="img-fluid" alt="signin image" />
@@ -63,6 +63,7 @@ export default function signin(): string {
               </svg>
               Sign in with Google
             </button>
+            <div id="error-message"></div>
           </form>
         </div>
         <div id="signin-close" class="signin-close">X</div>

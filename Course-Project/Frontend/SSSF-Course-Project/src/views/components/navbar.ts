@@ -1,6 +1,6 @@
 import { Cart } from '../../interfaces/Cart';
-import popup from '../index/popup';
-import signin from '../index/signin';
+import popup from './popup';
+import signin from './signin';
 
 export default function navbar(user?: any, cart?: Cart): string {
   const navbar = `
@@ -41,7 +41,7 @@ export default function navbar(user?: any, cart?: Cart): string {
         <a
           class="nav-link btn btn-account btn-primary"
           id="account-button"
-          href="#"
+          href="/account"
           >My account</a
         >
       </li>
@@ -119,7 +119,7 @@ export default function navbar(user?: any, cart?: Cart): string {
                   return `
                       <li class="cart-item-entry">
                         <div class="cart-item-image">
-                          <img src="${book.image}" alt="" />
+                          <img src="img/${book.image}" alt="book-image" />
                         </div>
                         <div class="cart-item-info">
                           <div class="cart-item-title">${book.title}</div>

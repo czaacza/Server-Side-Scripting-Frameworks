@@ -38,8 +38,8 @@ app.use(express.json());
 
     const permissions = shield(
       {
-        Mutation: {
-          login: rateLimitRule({window: '1s', max: 5}),
+        Query: {
+          users: rateLimitRule({window: '1s', max: 5}),
         },
       },
       {

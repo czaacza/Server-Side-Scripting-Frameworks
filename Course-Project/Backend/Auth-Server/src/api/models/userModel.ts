@@ -6,6 +6,11 @@ const UserSchema = new Schema<User>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isAdmin: { type: Boolean, required: true, default: false },
+  details: {
+    firstName: { type: String },
+    lastName: { type: String },
+    phone: { type: String },
+  },
 });
 
 // Duplicate the ID field.

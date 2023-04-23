@@ -3,6 +3,11 @@ interface User extends Document {
   user_name: string;
   email: string;
   password: string;
+  details?: {
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+  };
 }
 
 interface UserTest {
@@ -17,7 +22,7 @@ interface UserTest {
 interface UserIdWithToken {
   id: string;
   token: string;
-  role: 'admin' | 'user';
+  isAdmin: boolean;
 }
 
 export {User, UserTest, UserIdWithToken};

@@ -17,7 +17,7 @@ export default function popup(): string {
                 alt="eBookery Logo"
               />
             </div>
-            <form action="http://localhost:3000/api/auth/register" method="POST">
+            <form id="signup-form">
               <div class="mb-3">
                 <label for="signupName" class="form-label">Name</label>
                 <input

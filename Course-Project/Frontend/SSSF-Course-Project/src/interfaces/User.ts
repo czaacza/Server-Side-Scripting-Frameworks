@@ -5,6 +5,11 @@ interface User extends Document {
   email: string;
   password: string;
   isAdmin: boolean;
+  details?: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+  };
 }
 
 interface UserOutput {
@@ -17,4 +22,9 @@ interface UserLogin {
   password: string;
 }
 
-export type { User, UserOutput, UserLogin };
+interface UserFromToken {
+  id: string;
+  isAdmin: boolean;
+}
+
+export type { User, UserOutput, UserLogin, UserFromToken };

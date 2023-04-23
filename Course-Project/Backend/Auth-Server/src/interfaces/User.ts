@@ -5,11 +5,18 @@ interface User extends Document {
   email: string;
   password: string;
   isAdmin: boolean;
+  details?: {
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+  };
 }
 
 interface UserOutput {
+  id: string;
   username: string;
   email: string;
+  isAdmin?: boolean;
 }
 
 interface UserLogin {

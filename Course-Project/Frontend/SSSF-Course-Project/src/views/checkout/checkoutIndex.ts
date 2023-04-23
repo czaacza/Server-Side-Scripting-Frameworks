@@ -1,7 +1,8 @@
+import { User } from '../../interfaces/User';
 import navbar from '../components/navbar';
 import checkoutSection from './checkoutSection';
 
-export default function index(user?: any, cart?: any): string {
+export default function index(user?: User, cart?: any): string {
   const modalHtml = `
 
     ${navbar(user, cart)}

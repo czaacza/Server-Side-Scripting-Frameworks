@@ -63,7 +63,7 @@ function updateDropdownMenu(storedCart: Cart): void {
             return `
               <li class="cart-item-entry">
                 <div class="cart-item-image">
-                  <img src="${book.image}" alt="" />
+                  <img src="img/${book.image}" alt="" />
                 </div>
                 <div class="cart-item-info">
                   <div class="cart-item-title">${book.title}</div>

@@ -2,6 +2,7 @@ type User {
   id: ID!
   username: String!
   email: String!
+  details: UserDetails
 }
 
 type TokenMessage {
@@ -15,11 +16,24 @@ input Credentials {
   password: String!
 }
 
+type UserDetails {
+  firstName: String
+  lastName: String
+  phone: String
+}
+
+input UserDetailsInput {
+  firstName: String
+  lastName: String
+  phone: String
+}
+
 input UserModify {
   id: ID!
   username: String
   email: String
   password: String
+  details: UserDetailsInput
 }
 
 input UserInput {
