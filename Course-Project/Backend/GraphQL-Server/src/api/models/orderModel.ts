@@ -1,5 +1,5 @@
-import { Order } from '../../interfaces/Order';
-import { Schema, model } from 'mongoose';
+import {Order} from '../../interfaces/Order';
+import {Schema, model} from 'mongoose';
 
 const orderSchema = new Schema<Order>({
   userId: {

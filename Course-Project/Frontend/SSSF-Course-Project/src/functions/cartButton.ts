@@ -89,7 +89,7 @@ export function initCartButtonEventListener(): void {
   }
 }
 
-export function getStoredCart(): Cart | null {
+export function getStoredCart(): Cart | undefined {
   const storedCart = sessionStorage.getItem('cart');
-  return storedCart ? JSON.parse(storedCart) : null;
+  return storedCart ? JSON.parse(storedCart) : undefined;
 }

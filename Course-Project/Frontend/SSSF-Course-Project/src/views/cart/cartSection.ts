@@ -61,7 +61,7 @@ export default function cartSection(cart?: Cart): string {
                   cart && cart.total ? cart.total.toFixed(2) : '0.00'
                 }</span>
               </h4>
-              <a href="/checkout" class="btn btn-primary btn-block mt-3">
+              <a href="/checkout"id="checkout-button" class="btn btn-primary btn-block mt-3">
                 Checkout
               </a>
             </div>

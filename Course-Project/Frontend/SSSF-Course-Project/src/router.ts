@@ -2,12 +2,17 @@ import Navigo from 'navigo';
 
 import index from './views/index/index';
 import cartIndex from './views/cart/cartIndex';
-import { getStoredUser } from './auth/auth';
+import { getStoredUser } from './api/users';
 import { fetchProducts } from './api/products';
 import { initEventListeners } from './main';
 import { getStoredCart, updateCartTotal } from './functions/cartButton';
 import checkoutIndex from './views/checkout/checkoutIndex';
 import accountIndex from './views/account/accountIndex';
+import { checkIfCheckoutAllowed } from './functions/checkout';
+import orderConfirmationIndex from './views/order-confirmation/orderConfirmationIndex';
+import getUserOrders from './api/orders';
+import { checkIfAdminAllowed, fetchUsers } from './functions/admin';
+import adminIndex from './views/admin/adminIndex';
 
 const router = new Navigo('');
 
@@ -36,6 +41,9 @@ router
   })
 
   .on('/checkout', async () => {
+    if (!checkIfCheckoutAllowed()) {
+      router.navigate('/cart');
+    }
     const storedUser = await getStoredUser();
     const storedCart = getStoredCart();
     const contentElement = document.querySelector<HTMLDivElement>('#app');
@@ -45,8 +53,36 @@ router
 
   .on('/account', async () => {
     const storedUser = await getStoredUser();
+    const userOrders = await getUserOrders(storedUser);
+    const products = await fetchProducts();
+    const storedCart = getStoredCart();
+
     const contentElement = document.querySelector<HTMLDivElement>('#app');
-    contentElement!.innerHTML = accountIndex(storedUser);
+    contentElement!.innerHTML = accountIndex(
+      storedUser,
+      userOrders,
+      products,
+      storedCart
+    );
+    initEventListeners();
+  })
+
+  .on('/account/admin', async () => {
+    if (!checkIfAdminAllowed()) {
+      // router.navigate('/account');
+    }
+    const storedUser = await getStoredUser();
+    const storedCart = getStoredCart();
+    const users = await fetchUsers();
+    const contentElement = document.querySelector<HTMLDivElement>('#app');
+    contentElement!.innerHTML = adminIndex(storedUser, storedCart, users);
+    initEventListeners();
+  })
+
+  .on('/order-confirmation', async () => {
+    const storedUser = await getStoredUser();
+    const contentElement = document.querySelector<HTMLDivElement>('#app');
+    contentElement!.innerHTML = orderConfirmationIndex(storedUser);
     initEventListeners();
   })
 

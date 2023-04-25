@@ -1,5 +1,7 @@
 // import { getStoredCart } from './cartButton';
 
+import { connect } from 'net';
+
 // export function increaseCartItemQuantity(bookId: string): void {
 //   const cart = getStoredCart();
 //   if (!cart) return;
@@ -54,3 +56,9 @@
 //     });
 //   });
 // }
+
+export const initCartEventListeners = () => {
+  document.getElementById('checkout-button')?.addEventListener('click', () => {
+    sessionStorage.setItem('checkoutAllowed', 'true');
+  });
+};

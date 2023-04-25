@@ -30,18 +30,20 @@ h2 {
 .navbar-collapse > ul > li {
   margin-left: 14px;
 }
-.signin-btn {
+
+.nav-link {
   padding: 12px 16px !important;
 }
 
-.nav-link {
-  padding: 12px 10px !important;
+.signin-btn {
+  padding: 14px 18px !important;
 }
 
 .signup-btn {
   margin-right: 48px;
-  padding: 12px 16px !important;
+  padding: 14px 28px !important;
   color: #fff !important;
+  border-radius: 9999px;
 }
 
 .signin-btn:hover,
@@ -50,6 +52,7 @@ h2 {
 }
 
 .btn-primary {
+  border-radius: 9999px;
   background-color: #38b6ff;
   border: none;
 }
@@ -67,17 +70,32 @@ h2 {
   border-radius: 5px;
 }
 
-.logout-btn {
-  padding: 12px 16px !important;
-  color: #fff !important;
+.logout-btn,
+.logout-btn:hover,
+.logout-btn:focus,
+.logout-btn:active {
+  padding: 14px 28px !important;
+  background-color: #f8f9fa !important;
+  color: #061219 !important;
+  border-radius: 99999px;
   margin-right: 40px;
 }
 
 .btn-account {
-  padding: 12px 16px !important;
+  background-color: #061219;
+  padding: 12px 24px !important;
   border-radius: 5px;
   color: #fff !important;
+  border: 1px solid #061219;
 }
+
+.btn-account:hover,
+.btn-account:active {
+  background-color: #f8f9fa !important;
+  color: #061219 !important;
+  border: 1px solid #061219;
+}
+
 modal-content {
   position: relative;
 }

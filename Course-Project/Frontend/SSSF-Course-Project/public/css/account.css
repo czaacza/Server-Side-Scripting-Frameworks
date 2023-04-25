@@ -8,13 +8,27 @@
 .account-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   margin-top: 50px;
 }
 
+.account-row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .btn-save-changes {
   padding: 10px 24px !important;
+}
+
+.btn-admin-panel-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.btn-admin-panel {
+  width: 200px;
 }
 
 .success-message {
@@ -45,4 +59,22 @@
   border-radius: 5px;
   font-size: 16px;
   opacity: 0;
+}
+
+.book-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-history-img {
+  width: 100px;
+  height: auto;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }

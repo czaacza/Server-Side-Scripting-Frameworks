@@ -21,12 +21,12 @@ const login = async (
     const { username, password } = req.body;
     const user = await userModel.findOne({ email: username });
     if (!user) {
-      next(new CustomError('Incorrect username/password', 200));
+      next(new CustomError('Incorrect username/password', 400));
       return;
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      next(new CustomError('Incorrect username/password', 200));
+      next(new CustomError('Incorrect username/password', 400));
       return;
     }
 

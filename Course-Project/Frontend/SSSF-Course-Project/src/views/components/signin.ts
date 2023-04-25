@@ -63,7 +63,7 @@ export default function signin(): string {
               </svg>
               Sign in with Google
             </button>
-            <div id="error-message"></div>
+            <div id="error-message" class="login-error-message"></div>
           </form>
         </div>
         <div id="signin-close" class="signin-close">X</div>

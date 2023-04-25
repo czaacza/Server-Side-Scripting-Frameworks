@@ -1,4 +1,4 @@
-import { getStoredUser } from '../auth/auth';
+import { getStoredUser } from '../api/users';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { updateUserQuery } from '../graphql/queries';
 

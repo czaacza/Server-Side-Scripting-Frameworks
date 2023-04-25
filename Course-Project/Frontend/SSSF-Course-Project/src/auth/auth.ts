@@ -1,6 +1,3 @@
-import jwt_decode from 'jwt-decode';
-import axios from 'axios';
-import { User, UserFromToken, UserOutput } from '../interfaces/User';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { loginQuery, registerQuery, userByIdQuery } from '../graphql/queries';
 
@@ -31,30 +28,6 @@ export async function login(
 export async function logout(): Promise<void> {
   sessionStorage.removeItem('token');
   location.reload();
-}
-
-export async function getStoredUser(): Promise<any> {
-  const token = sessionStorage.getItem('token');
-  if (!token) {
-    return undefined;
-  }
-
-  try {
-    const userFromToken: UserFromToken = jwt_decode(token);
-    if (userFromToken) {
-      const data = await doGraphQLFetch(
-        `${import.meta.env.VITE_GRAPHQL_URL}`,
-        userByIdQuery,
-        {
-          userByIdId: userFromToken.id,
-        }
-      );
-      return data.userById;
-    }
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
 }
 
 export async function register(

@@ -51,7 +51,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
             </div>
             <div class="form-group mt-5">
               <label for="emailAddress">Comments to the order</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+              <textarea class="form-control" id="orderComments" rows="4"></textarea>
             </div>
           </form>
         </div>
@@ -119,7 +119,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
                   <option value="paypal">PayPal</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary btn-block mt-5">
+              <button type="" id="place-order-button" class="btn btn-primary btn-block mt-5">
                 Place Order
               </button>
             </div>
