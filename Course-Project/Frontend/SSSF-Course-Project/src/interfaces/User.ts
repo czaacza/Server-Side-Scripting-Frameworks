@@ -1,10 +1,11 @@
 import { Document, Schema } from 'mongoose';
 
-interface User extends Document {
+interface User {
+  id: string;
   username: string;
   email: string;
-  password: string;
-  isAdmin: boolean;
+  password?: string;
+  isAdmin?: boolean;
   details?: {
     firstName: string;
     lastName: string;

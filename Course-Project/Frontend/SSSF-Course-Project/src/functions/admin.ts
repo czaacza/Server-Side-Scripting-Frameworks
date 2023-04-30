@@ -1,10 +1,20 @@
-import { doGraphQLFetch } from '../graphql/fetch';
-import { getUsersQuery } from '../graphql/queries';
-import { User } from '../interfaces/User';
 import router from '../router';
+import { initUserSectionEventListeners } from './adminUserPanel';
+import { initProductSectionEventListeners } from './adminProductsPanel';
 
 export const initAdminEventListeners = (): void => {
   initAdminButtonEventListener();
+  initUserSectionEventListeners();
+  initProductSectionEventListeners();
+};
+
+export const checkIfAdminAllowed = () => {
+  if (sessionStorage.getItem('adminAllowed') !== 'true') {
+    return false;
+  } else {
+    sessionStorage.removeItem('adminAllowed');
+    return true;
+  }
 };
 
 const initAdminButtonEventListener = (): void => {
@@ -18,60 +28,45 @@ const initAdminButtonEventListener = (): void => {
   });
 };
 
-export const checkIfAdminAllowed = () => {
-  if (sessionStorage.getItem('adminAllowed') !== 'true') {
-    return false;
-  } else {
-    sessionStorage.removeItem('adminAllowed');
-    return true;
-  }
-};
+export function showSuccessMessage(message?: string) {
+  const successElement = document.getElementById('admin-success-message');
+  if (successElement) {
+    if (message) {
+      successElement.innerText = message;
+    }
+    successElement.style.display = 'block';
+    successElement.style.transition = 'opacity 1s';
+    setTimeout(() => {
+      successElement.style.opacity = '1';
+    }, 50);
 
-export async function fetchUsers() {
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    getUsersQuery,
-    {}
-  );
-  if (data && data.users) {
-    return data.users;
+    setTimeout(() => {
+      successElement.style.opacity = '0';
+      setTimeout(() => {
+        successElement.style.display = 'none';
+      }, 1000);
+    }, 3000);
   }
-
-  return undefined;
 }
 
-export const usersClickHandler = (users: User[]) => {
-  document.addEventListener('DOMContentLoaded', () => {
-    const userList = document.querySelector('.users-list') as HTMLElement;
-    const userDetailsForm = document.querySelector(
-      '#user-details-form'
-    ) as HTMLFormElement;
+export function showErrorMessage(error: string | undefined) {
+  const errorElement = document.getElementById('admin-error-message');
+  errorElement!.innerText = error || 'An error occurred';
 
-    const displayUserDetails = (user: User) => {
-      userDetailsForm.classList.remove('d-none');
+  console.log(errorElement);
 
-      (document.querySelector('#user-id') as HTMLInputElement).value = user.id;
-      (document.querySelector('#user-username') as HTMLInputElement).value =
-        user.username;
-      (document.querySelector('#user-email') as HTMLInputElement).value =
-        user.email;
-      (document.querySelector('#user-first-name') as HTMLInputElement).value =
-        user.details.firstName;
-      (document.querySelector('#user-last-name') as HTMLInputElement).value =
-        user.details.lastName;
-      (document.querySelector('#user-phone') as HTMLInputElement).value =
-        user.details.phone;
-    };
+  if (errorElement) {
+    errorElement.style.display = 'block';
+    errorElement.style.transition = 'opacity 1s';
+    setTimeout(() => {
+      errorElement.style.opacity = '1';
+    }, 50);
 
-    userList.addEventListener('click', (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      if (target.classList.contains('user-list-item')) {
-        const userId = target.dataset.userId as string;
-        const user = users.find((user) => user.id === userId);
-        if (user) {
-          displayUserDetails(user);
-        }
-      }
-    });
-  });
-};
+    setTimeout(() => {
+      errorElement.style.opacity = '0';
+      setTimeout(() => {
+        errorElement.style.display = 'none';
+      }, 1000);
+    }, 3000);
+  }
+}

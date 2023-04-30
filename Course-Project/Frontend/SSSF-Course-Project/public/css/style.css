@@ -96,6 +96,11 @@ h2 {
   border: 1px solid #061219;
 }
 
+.btn-squared {
+  border-radius: 4px !important;
+  padding: 0.375rem 0.75rem !important;
+}
+
 modal-content {
   position: relative;
 }

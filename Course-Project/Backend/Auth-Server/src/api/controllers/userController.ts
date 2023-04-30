@@ -48,6 +48,7 @@ const addUser = async (req: Request, res: Response, next: NextFunction) => {
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
+    details: req.body.details,
   });
 
   try {

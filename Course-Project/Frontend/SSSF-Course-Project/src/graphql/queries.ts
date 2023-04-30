@@ -46,6 +46,25 @@ mutation Register($user: UserInput!) {
 }
 `;
 
+const addUserAsAdminQuery = `
+mutation AddUserAsAdmin($user: AddUserInput!) {
+  addUserAsAdmin(user: $user) {
+    token
+    message
+    user {
+      id
+      username
+      email
+      details {
+        firstName
+        lastName
+        phone
+      }
+    }
+  }
+}
+`;
+
 const updateUserQuery = `
 mutation UpdateUser($user: UserModify) {
   updateUser(user: $user) {
@@ -122,6 +141,96 @@ query Users {
 }
 `;
 
+const updateUserAsAdminQuery = `
+mutation UpdateUserAsAdmin($user: UserModify!, $updateUserAsAdminId: ID!) {
+  updateUserAsAdmin(user: $user, id: $updateUserAsAdminId) {
+    token
+    message
+    user {
+      id
+      username
+      email
+      details {
+        firstName
+        lastName
+        phone
+      }
+    }
+  }
+}
+`;
+
+const deleteUserAsAdminQuery = `
+mutation DeleteUserAsAdmin($deleteUserAsAdminId: ID!) {
+  deleteUserAsAdmin(id: $deleteUserAsAdminId) {
+    token
+    message
+    user {
+      id
+      username
+      email
+      details {
+        firstName
+        lastName
+        phone
+      }
+    }
+  }
+}
+`;
+
+const getProductsQuery = `
+query Books {
+  books {
+    id
+    title
+    author
+    description
+    price
+    image
+  }
+}
+`;
+
+const addProductAsAdminQuery = `
+mutation CreateBook($bookInput: BookInput) {
+  createBook(bookInput: $bookInput) {
+    id
+    title
+    author
+    description
+    price
+    image
+  }
+}
+`;
+
+const updateProductAsAdminQuery = `
+mutation UpdateBook($bookModifyInput: BookModifyInput) {
+  updateBook(bookModifyInput: $bookModifyInput) {
+    id
+    title
+    author
+    description
+    price
+    image
+  }
+}
+`;
+
+const deleteProductAsAdminQuery = `
+mutation DeleteBook($deleteBookId: ID!) {
+  deleteBook(id: $deleteBookId) {
+    id
+    title
+    author
+    description
+    price
+    image
+  }
+}
+`;
+
 export {
   loginQuery,
   userByIdQuery,
@@ -130,4 +239,11 @@ export {
   createOrderQuery,
   userOrdersQuery,
   getUsersQuery,
+  updateUserAsAdminQuery,
+  deleteUserAsAdminQuery,
+  addUserAsAdminQuery,
+  getProductsQuery,
+  addProductAsAdminQuery,
+  updateProductAsAdminQuery,
+  deleteProductAsAdminQuery,
 };

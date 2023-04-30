@@ -11,7 +11,6 @@ export default function index(
   cart?: any
 ): string {
   const modalHtml = `
-
     ${navbar(user, cart)}
 
     ${accountSection(user)}

@@ -42,6 +42,13 @@ input UserInput {
   password: String!
 }
 
+input AddUserInput {
+  username: String!
+  email: String!
+  password: String!
+  details: UserDetailsInput
+}
+
 type Query {
   users: [User]
   userById(id: ID!): User
@@ -51,6 +58,7 @@ type Query {
 type Mutation {
   register(user: UserInput!): TokenMessage!
   login(credentials: Credentials!): TokenMessage!
+  addUserAsAdmin(user: AddUserInput!): TokenMessage!
   updateUser(user: UserModify): TokenMessage!
   deleteUser(id: ID!): TokenMessage!
   updateUserAsAdmin(user: UserModify!, id: ID!): TokenMessage

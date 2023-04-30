@@ -6,10 +6,8 @@ import {Order, OrderModify} from '../../interfaces/Order';
 export default {
   Query: {
     ordersByAdmin: async () => {
-      console.log('orderByAdmin');
       const users = await orderModel.find();
 
-      console.log('users', users);
       return users;
     },
     ordersByUser: async (_parent: unknown, _args: {userId: string}) => {

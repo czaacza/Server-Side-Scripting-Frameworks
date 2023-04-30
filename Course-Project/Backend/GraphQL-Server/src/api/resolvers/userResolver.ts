@@ -84,6 +84,40 @@ export default {
       return user;
     },
 
+    addUserAsAdmin: async (
+      _parent: unknown,
+      args: {user: User},
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      if (user.isAdmin === false) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'NOT_AUTHORIZED'},
+        });
+      }
+
+      const response = await fetch(`${process.env.AUTH_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(args.user),
+      });
+      if (!response.ok) {
+        throw new GraphQLError(response.statusText, {
+          extensions: {code: 'NOT_FOUND'},
+        });
+      }
+      const userFromPost = (await response.json()) as LoginMessageResponse;
+      return userFromPost;
+    },
+
     updateUser: async (
       _parent: unknown,
       args: {user: User},

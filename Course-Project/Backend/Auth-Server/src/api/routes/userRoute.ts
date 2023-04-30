@@ -16,7 +16,7 @@ const router = Router();
 router
   .route('/')
   .get(getAllUsers)
-  .post(addUser)
+  .post(authenticate, addUser)
   .put(authenticate, updateUser)
   .delete(authenticate, deleteUser);
 

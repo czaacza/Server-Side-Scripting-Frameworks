@@ -2,7 +2,7 @@ import { Book } from '../../interfaces/Book';
 
 export default function ordersSection(orders: any, products: any): string {
   const findBookById = (books: Book[], bookId: string) => {
-    return books.find((book: Book) => book._id === bookId);
+    return books.find((book: Book) => book.id === bookId);
   };
 
   const ordersHtml = orders

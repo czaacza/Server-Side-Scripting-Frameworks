@@ -49,7 +49,7 @@ async function sendCreateOrderMutation(user: User, cart: Cart) {
 
   const books = cart.books.map((cartItem) => {
     return {
-      book: cartItem.book._id,
+      book: cartItem.book.id,
       quantity: cartItem.quantity,
     };
   });

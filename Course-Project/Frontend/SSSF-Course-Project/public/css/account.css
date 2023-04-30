@@ -61,6 +61,16 @@
   opacity: 0;
 }
 
+.user-list-item,
+.product-list-item {
+  cursor: pointer;
+}
+
+.user-list-item:hover,
+.product-list-item:hover {
+  background-color: #f1f1f1;
+}
+
 .book-info {
   display: flex;
   align-items: flex-start;

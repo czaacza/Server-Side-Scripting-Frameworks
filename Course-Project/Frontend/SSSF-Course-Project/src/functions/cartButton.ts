@@ -8,7 +8,7 @@ export function addToCart(book: Book): void {
     total: 0,
   };
 
-  const index = cart.books.findIndex((item) => item.book._id === book._id);
+  const index = cart.books.findIndex((item) => item.book.id === book.id);
 
   if (index !== -1) {
     cart.books[index].quantity += 1;
