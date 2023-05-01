@@ -1,6 +1,8 @@
 import router from '../router';
 import { initUserSectionEventListeners } from './adminUserPanel';
 import { initProductSectionEventListeners } from './adminProductsPanel';
+import { getStoredUser } from '../api/users';
+import { User } from '../interfaces/User';
 
 export const initAdminEventListeners = (): void => {
   initAdminButtonEventListener();
@@ -8,13 +10,18 @@ export const initAdminEventListeners = (): void => {
   initProductSectionEventListeners();
 };
 
-export const checkIfAdminAllowed = () => {
+export const checkIfAdminAllowed = (isAdmin: boolean) => {
   if (sessionStorage.getItem('adminAllowed') !== 'true') {
     return false;
-  } else {
-    sessionStorage.removeItem('adminAllowed');
-    return true;
   }
+
+  if (!isAdmin) {
+    sessionStorage.removeItem('adminAllowed');
+    return false;
+  }
+
+  sessionStorage.removeItem('adminAllowed');
+  return true;
 };
 
 const initAdminButtonEventListener = (): void => {

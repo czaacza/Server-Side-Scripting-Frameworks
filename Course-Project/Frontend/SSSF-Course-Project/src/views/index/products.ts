@@ -1,6 +1,6 @@
 export default function productSection(books?: any): string {
   const modalHtml = `
-    <section class="product-section">
+    <section class="product-section" id="product-section">
           <div class="container">
             <h2 class="text-center mb-5">Products</h2>
             <div class="row products-row gx-4">

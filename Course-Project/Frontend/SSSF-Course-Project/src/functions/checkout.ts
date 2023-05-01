@@ -24,28 +24,38 @@ export const initCheckoutEventListeners = async () => {
     .getElementById('place-order-button')
     ?.addEventListener('click', async (e) => {
       e.preventDefault();
-      ``;
-      const order = await sendCreateOrderMutation(user, cart);
-      if (order) {
-        console.log('Order created successfully:', order);
-        // Redirect to the order confirmation page or show a success message
-        router.navigate('/order-confirmation');
-      } else {
-        console.log('Failed to create the order');
-        // Show an error message
-      }
+      handleCheckoutButton(user as User, cart);
     });
 };
 
+const handleCheckoutButton = async (user: User, cart: Cart) => {
+  console.log('place order button clicked');
+  const order = await sendCreateOrderMutation(user as User, cart);
+  if (order) {
+    console.log('Order created successfully:', order);
+    // Redirect to the order confirmation page or show a success message
+    router.navigate('/order-confirmation');
+    console.log(order);
+  } else {
+    console.log('Failed to create the order');
+    // Show an error message
+  }
+};
+
 async function sendCreateOrderMutation(user: User, cart: Cart) {
-  const firstName = document.getElementById('firstName')?.value;
-  const lastName = document.getElementById('lastName')?.value;
-  const phone = document.getElementById('phoneNumber')?.value;
-  const email = document.getElementById('emailAddress')?.value;
-  const comments = document.getElementById('orderComments')?.value;
+  const firstName = (document.getElementById('firstName') as HTMLInputElement)
+    .value;
+  const lastName = (document.getElementById('lastName') as HTMLInputElement)
+    .value;
+  const phone = (document.getElementById('phoneNumber') as HTMLInputElement)
+    .value;
+  const email = (document.getElementById('emailAddress') as HTMLInputElement)
+    .value;
+  const comments = (
+    document.getElementById('orderComments') as HTMLInputElement
+  ).value;
 
   const totalPrice = cart.total;
-  const token = sessionStorage.getItem('token')?.slice(1, -1);
 
   const books = cart.books.map((cartItem) => {
     return {

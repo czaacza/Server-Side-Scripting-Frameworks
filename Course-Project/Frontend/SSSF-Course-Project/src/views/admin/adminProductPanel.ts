@@ -3,7 +3,7 @@ import { Book } from '../../interfaces/Book';
 
 export default function adminProductPanel(books?: Book[]): string {
   const modalHtml = `
-    <div class="container">
+    <div class="container product-panel-container">
       <div class="row mt-5">
         <div class="col-md-4">
           <h3>Products</h3>

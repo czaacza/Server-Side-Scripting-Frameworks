@@ -18,7 +18,10 @@ import {
   usersClickHandler,
 } from './functions/adminUserPanel';
 import adminIndex from './views/admin/adminIndex';
-import { productsClickHandler } from './functions/adminProductsPanel';
+import {
+  initSearchProducts,
+  productsClickHandler,
+} from './functions/adminProductsPanel';
 
 const router = new Navigo('');
 
@@ -74,10 +77,18 @@ router
   })
 
   .on('/account/admin', async () => {
-    if (!checkIfAdminAllowed()) {
-      // router.navigate('/account');
+    const storedUser = await getStoredUser(true);
+    console.log('storedUser: ', storedUser);
+    if (!storedUser) {
+      router.navigate('/');
+      return;
     }
-    const storedUser = await getStoredUser();
+
+    if (!checkIfAdminAllowed(storedUser.isAdmin as boolean)) {
+      router.navigate('/');
+      return;
+    }
+
     const storedCart = getStoredCart();
     const products = await fetchProducts();
     const users = await fetchUsers();
@@ -95,6 +106,7 @@ router
     usersClickHandler(users);
     productsClickHandler(products);
     initSearchUsers(users);
+    initSearchProducts(products);
   })
 
   .on('/order-confirmation', async () => {

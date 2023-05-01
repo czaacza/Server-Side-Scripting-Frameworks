@@ -28,7 +28,7 @@ export default function navbar(user?: any, cart?: Cart): string {
         >
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="#">About us</a>
+        <a class="nav-link" href="#product-section">Products</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#">Contact</a>
@@ -127,7 +127,7 @@ export default function navbar(user?: any, cart?: Cart): string {
                   return `
                       <li class="cart-item-entry">
                         <div class="cart-item-image">
-                          <img src="img/${book.image}" alt="book-image" />
+                          <img src="/img/${book.image}" alt="book-image" />
                         </div>
                         <div class="cart-item-info">
                           <div class="cart-item-title">${book.title}</div>
@@ -142,9 +142,12 @@ export default function navbar(user?: any, cart?: Cart): string {
             : `<li class="cart-item-entry">Your cart is empty</li>`
         }
       </ul>
-      <div class="cart-total">Total: $<span class="cart-total-price">
-      ${cart && cart.total ? cart.total.toFixed(2) : '0.00'}
-      </span></div>
+      <div class="cart-summary d-flex justify-content-between align-items-center pd-4">
+        <div class="cart-total">Total: $<span class="cart-total-price">
+        ${cart && cart.total ? cart.total.toFixed(2) : '0.00'}
+        </span></div>
+        <a href="/cart/"> <button class="btn btn-primary">Move to cart</button></a>
+      </div>
     </div>
       </li>
     </ul>

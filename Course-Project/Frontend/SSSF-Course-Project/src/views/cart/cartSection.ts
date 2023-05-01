@@ -12,7 +12,7 @@ export default function cartSection(cart?: Cart): string {
               <div class="col-md-3">
                 <img
                   class="card-img cart-item-img"
-                  src="img/${book.image}"
+                  src="/img/${book.image}"
                   alt="Book Cover"
                 />
               </div>

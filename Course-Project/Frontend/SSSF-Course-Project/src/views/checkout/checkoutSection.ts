@@ -119,7 +119,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
                   <option value="paypal">PayPal</option>
                 </select>
               </div>
-              <button type="" id="place-order-button" class="btn btn-primary btn-block mt-5">
+              <button id="place-order-button" class="btn btn-primary btn-block mt-5">
                 Place Order
               </button>
             </div>

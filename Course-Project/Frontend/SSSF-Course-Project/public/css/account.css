@@ -71,6 +71,21 @@
   background-color: #f1f1f1;
 }
 
+.no-orders-message {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.user-panel-container,
+.product-panel-container {
+  margin-top: 9.6rem;
+}
+
+.product-panel-container {
+  margin-bottom: 10rem;
+}
+
 .book-info {
   display: flex;
   align-items: flex-start;

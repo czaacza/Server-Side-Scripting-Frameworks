@@ -3,7 +3,7 @@ import { User } from '../../interfaces/User';
 
 export default function adminUserPanel(users?: User[]): string {
   const modalHtml = `
-    <div class="container">
+    <div class="container user-panel-container">
       <div class="row mt-5">
         <div class="col-md-4">
           <h3>Users</h3>
@@ -52,6 +52,7 @@ export default function adminUserPanel(users?: User[]): string {
             Error updating profile details. Please try again.
           </div>  
         </div>
+        <div id="order-history-section" class="d-none"></div>
       </div>
     </div>
   `;

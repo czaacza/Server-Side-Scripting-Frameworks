@@ -15,7 +15,7 @@ export default function ordersSection(orders: any, products: any): string {
           const foundBook: Book | undefined = findBookById(products, book.book);
           return `
       <div class="book-info">
-        <img src="img/${foundBook?.image}" alt="${
+        <img src="/img/${foundBook?.image}" alt="${
             foundBook?.title
           }" class="card-img order-history-img" />
         <div class="book-details">
@@ -47,6 +47,9 @@ export default function ordersSection(orders: any, products: any): string {
   <div class="container account-container" >
       <div class="col-md-12 mt-5 mb-5">
         <h3>Order History</h3>
+        ${
+          orders && orders.length > 0
+            ? `
         <table class="table table-striped table-responsive mt-3">
           <thead>
             <tr>
@@ -63,6 +66,11 @@ export default function ordersSection(orders: any, products: any): string {
          ${ordersHtml}
        </tbody>
       </table>
+      `
+            : `
+      <p class="mt-5 no-orders-message"> No orders found. </p>
+      `
+        }
     </div>
   </div>
 </div>

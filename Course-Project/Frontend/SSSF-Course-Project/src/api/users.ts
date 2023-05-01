@@ -2,7 +2,9 @@ import jwt_decode from 'jwt-decode';
 import { User, UserFromToken, UserOutput } from '../interfaces/User';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { userByIdQuery } from '../graphql/queries';
-export async function getStoredUser(): Promise<User | undefined> {
+export async function getStoredUser(
+  checkIfAdmin?: boolean
+): Promise<User | undefined> {
   const token = sessionStorage.getItem('token');
   if (!token) {
     return undefined;
@@ -18,7 +20,12 @@ export async function getStoredUser(): Promise<User | undefined> {
           userByIdId: userFromToken.id,
         }
       );
-      console.log(data);
+      if (checkIfAdmin) {
+        return {
+          ...data.userById,
+          isAdmin: userFromToken.isAdmin,
+        };
+      }
       return data.userById;
     }
   } catch (error) {

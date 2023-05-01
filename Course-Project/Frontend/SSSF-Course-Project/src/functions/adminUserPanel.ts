@@ -1,3 +1,5 @@
+import getUserOrders from '../api/orders';
+import { fetchProducts } from '../api/products';
 import { doGraphQLFetch } from '../graphql/fetch';
 import {
   addUserAsAdminQuery,
@@ -6,6 +8,7 @@ import {
   updateUserAsAdminQuery,
 } from '../graphql/queries';
 import { User } from '../interfaces/User';
+import ordersSection from '../views/account/ordersSection';
 import { showErrorMessage, showSuccessMessage } from './admin';
 
 export const initUserSectionEventListeners = (): void => {
@@ -56,6 +59,7 @@ export const usersClickHandler = (users: User[]) => {
 
     listItem.addEventListener('click', () => {
       displayUserDetails(user);
+      showOrderHistory(user);
     });
   });
 };
@@ -93,7 +97,6 @@ async function updateAdminUser(
     variables,
     token
   );
-  console.log(data);
   if (data) {
     return { success: true, user: data.updateUser };
   }
@@ -128,7 +131,6 @@ export default async function initAdminUserUpdateButtonEventListener() {
         phone,
       },
     };
-    console.log('userToUpdate', userToUpdate);
 
     const updateResult = await updateAdminUser(userToUpdate);
     if (updateResult.success) {
@@ -209,7 +211,6 @@ async function addNewUser(
     variables,
     adminToken
   );
-  console.log('data', data);
 
   if (data.addUserAsAdmin && data.addUserAsAdmin.user) {
     return { success: true, user: data.addUserAsAdmin.user };
@@ -351,4 +352,20 @@ function toggleAddUserForm(visible: boolean) {
     updateUserButton!.style.display = 'inline-block';
     deleteUserButton!.style.display = 'inline-block';
   }
+}
+
+async function showOrderHistory(user: User): Promise<void> {
+  // Filter orders for the specific user
+  const products = await fetchProducts();
+  const userOrders = await getUserOrders(user);
+
+  // Generate the Order history section HTML
+  const orderHistoryHtml = ordersSection(userOrders, products);
+
+  // Update the Order history section and show it
+  const orderHistorySection = document.getElementById(
+    'order-history-section'
+  ) as HTMLElement;
+  orderHistorySection.innerHTML = orderHistoryHtml;
+  orderHistorySection.classList.remove('d-none');
 }
