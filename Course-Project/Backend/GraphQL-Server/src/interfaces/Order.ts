@@ -36,4 +36,22 @@ interface OrderModify {
   status: string;
 }
 
-export {Order, OrderModify};
+interface OrderTest {
+  id?: string;
+  userId?: string;
+  books?: {
+    book: string;
+    quantity: number;
+  }[];
+  totalPrice?: number;
+  details?: {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    email: string;
+    comments: string;
+  };
+  status?: string;
+}
+
+export {Order, OrderModify, OrderTest};

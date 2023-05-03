@@ -8,10 +8,16 @@ import { initEventListeners } from './main';
 import { getStoredCart, updateCartTotal } from './functions/cartButton';
 import checkoutIndex from './views/checkout/checkoutIndex';
 import accountIndex from './views/account/accountIndex';
-import { checkIfCheckoutAllowed } from './functions/checkout';
+import {
+  checkIfCheckoutAllowed,
+  initCheckoutEventListeners,
+} from './functions/checkout';
 import orderConfirmationIndex from './views/order-confirmation/orderConfirmationIndex';
 import getUserOrders from './api/orders';
-import { checkIfAdminAllowed } from './functions/admin';
+import {
+  checkIfAdminAllowed,
+  initAdminEventListeners,
+} from './functions/admin';
 import {
   fetchUsers,
   initSearchUsers,
@@ -22,8 +28,10 @@ import {
   initSearchProducts,
   productsClickHandler,
 } from './functions/adminProductsPanel';
+import { initCartEventListeners } from './functions/cartPage';
+import initAccountButtonEventListeners from './functions/accountButton';
 
-const router = new Navigo('');
+const router = new Navigo('/');
 
 router
   .on('/', async () => {
@@ -33,13 +41,13 @@ router
 
     const contentElement = document.querySelector<HTMLDivElement>('#app');
 
-    console.log('storedUser', storedUser);
-
     contentElement!.innerHTML = index(storedUser, products, storedCart);
     initEventListeners();
   })
 
   .on('/cart', async () => {
+    initCartEventListeners();
+
     const storedUser = await getStoredUser();
     const storedCart = getStoredCart();
     // initQuantityButtonsEventListeners();
@@ -53,6 +61,8 @@ router
     if (!checkIfCheckoutAllowed()) {
       router.navigate('/cart');
     }
+    initCheckoutEventListeners();
+
     const storedUser = await getStoredUser();
     const storedCart = getStoredCart();
     const contentElement = document.querySelector<HTMLDivElement>('#app');
@@ -61,6 +71,8 @@ router
   })
 
   .on('/account', async () => {
+    initAccountButtonEventListeners();
+
     const storedUser = await getStoredUser();
     const userOrders = await getUserOrders(storedUser);
     const products = await fetchProducts();
@@ -73,12 +85,12 @@ router
       products,
       storedCart
     );
-    initEventListeners();
   })
 
   .on('/account/admin', async () => {
+    initAdminEventListeners();
+
     const storedUser = await getStoredUser(true);
-    console.log('storedUser: ', storedUser);
     if (!storedUser) {
       router.navigate('/');
       return;
@@ -102,11 +114,11 @@ router
       users
     );
 
-    initEventListeners();
     usersClickHandler(users);
     productsClickHandler(products);
     initSearchUsers(users);
     initSearchProducts(products);
+    initEventListeners();
   })
 
   .on('/order-confirmation', async () => {

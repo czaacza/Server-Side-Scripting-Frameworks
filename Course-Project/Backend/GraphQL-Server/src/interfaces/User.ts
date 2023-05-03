@@ -1,6 +1,6 @@
 import {Document} from 'mongoose';
 interface User extends Document {
-  user_name: string;
+  username: string;
   email: string;
   password: string;
   details?: {
@@ -12,8 +12,7 @@ interface User extends Document {
 
 interface UserTest {
   id?: string;
-  user_name?: string; // returned from graphql is snake_case
-  userName?: string; // graphql variables are camelCase
+  username?: string; // returned from graphql is snake_case
   email?: string;
   password?: string;
   token?: string;

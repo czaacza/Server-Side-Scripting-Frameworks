@@ -6,4 +6,13 @@ interface Book {
   image: string;
 }
 
-export {Book};
+interface BookTest {
+  id?: string;
+  title?: string;
+  author?: string;
+  description?: string;
+  price?: number;
+  image?: string;
+}
+
+export {Book, BookTest};

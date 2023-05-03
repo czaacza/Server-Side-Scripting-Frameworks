@@ -21,10 +21,6 @@ import {
   updateCartTotal,
   initCartButtonEventListener,
 } from './functions/cartButton';
-import initAccountButtonEventListeners from './functions/accountButton';
-import { initCartEventListeners } from './functions/cartPage';
-import { initCheckoutEventListeners } from './functions/checkout';
-import { initAdminEventListeners } from './functions/admin';
 
 export function initEventListeners(): void {
   initPopupEventListeners();
@@ -32,10 +28,6 @@ export function initEventListeners(): void {
   initLogoutEventListener();
   initAddToCartButtons();
   initCartButtonEventListener();
-  initAccountButtonEventListeners();
-  initCartEventListeners();
-  initCheckoutEventListeners();
-  initAdminEventListeners();
 }
 
 async function initApp(): Promise<void> {

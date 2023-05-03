@@ -22,7 +22,6 @@ const doGraphQLFetch = async (
   });
   if (!response.ok) throw new Error(response.statusText);
   const json = await response.json();
-  console.log(json);
   return json.data;
 };
 
