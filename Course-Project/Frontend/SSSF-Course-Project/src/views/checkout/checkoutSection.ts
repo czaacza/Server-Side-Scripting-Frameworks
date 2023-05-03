@@ -87,38 +87,10 @@ export default function checkoutSection(user?: User, cart?: any): string {
           <div class="card mb-4">
             <div class="card-body">
               <h5 class="card-title">Payment Information</h5>
-              <div class="form-group">
-                <label for="cardNumber">Card Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cardNumber"
-                  required
-                />
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="expirationDate">Expiration Date</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="expirationDate"
-                    required
-                  />
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="cvv">CVV</label>
-                  <input type="text" class="form-control" id="cvv" required />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="paymentMethod">Payment Method</label>
-                <select class="form-control" id="paymentMethod" required>
-                  <option value="">Choose...</option>
-                  <option value="creditCard">Credit Card</option>
-                  <option value="paypal">PayPal</option>
-                </select>
-              </div>
+              <div id="card-element" class="form-control"></div>
+              <div id="card-errors" role="alert"></div>
+           
+              
               <button id="place-order-button" class="btn btn-primary btn-block mt-5">
                 Place Order
               </button>

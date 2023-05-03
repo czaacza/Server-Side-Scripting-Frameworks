@@ -18,6 +18,7 @@ import {createRateLimitRule} from 'graphql-rate-limit';
 import {shield} from 'graphql-shield';
 import {makeExecutableSchema} from '@graphql-tools/schema';
 import {applyMiddleware} from 'graphql-middleware';
+import {sendOrderEmail} from './functions/emailSender';
 
 const app = express();
 
@@ -82,6 +83,16 @@ app.use(express.json());
         context: async ({req}) => authenticate(req),
       })
     );
+
+    app.post('/send-email', async (req, res) => {
+      const {userEmail, orderDetails} = req.body;
+      try {
+        await sendOrderEmail({userEmail, orderDetails});
+        res.status(200).send('Email sent successfully.');
+      } catch (error) {
+        res.status(500).send('Error sending email.');
+      }
+    });
 
     app.use(notFound);
     app.use(errorHandler);

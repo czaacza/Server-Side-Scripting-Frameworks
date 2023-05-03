@@ -35,7 +35,7 @@ export default function adminProductPanel(books?: Book[]): string {
             </div>
             <div class="mb-3">
               <label for="product-image" class="form-label">Image</label>
-              <input type="tel" class="form-control" id="product-image" required>
+              <input type="tel" class="form-control" id="product-image" value="book.png" required>
             </div>
             <button type="submit" class="btn btn-primary btn-squared btn-danger" id="btn-update-product">Update Product</button>
             <button type="button" class="btn btn-danger btn-squared" id="btn-delete-product">Delete Product</button>
