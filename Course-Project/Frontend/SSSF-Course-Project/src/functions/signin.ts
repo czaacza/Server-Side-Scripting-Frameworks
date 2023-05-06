@@ -1,5 +1,4 @@
 import { login } from '../auth/auth';
-import index from '../views/index/index';
 
 // Function to show signin window
 export function showSignin(): void {

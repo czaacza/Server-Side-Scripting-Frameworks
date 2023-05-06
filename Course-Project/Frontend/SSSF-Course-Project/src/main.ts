@@ -1,8 +1,3 @@
-// import './style.css';
-import typescriptLogo from './typescript.svg';
-import viteLogo from '/vite.svg';
-import index from './views/index/index';
-import cartIndex from './views/cart/cartIndex';
 import '../public/css/style.css';
 import '../public/css/testimonials.css';
 import '../public/css/products.css';

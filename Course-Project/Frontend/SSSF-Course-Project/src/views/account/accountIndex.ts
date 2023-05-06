@@ -1,4 +1,3 @@
-import { Cart } from '../../interfaces/Cart';
 import { User } from '../../interfaces/User';
 import navbar from '../components/navbar';
 import accountSection from './accountSection';

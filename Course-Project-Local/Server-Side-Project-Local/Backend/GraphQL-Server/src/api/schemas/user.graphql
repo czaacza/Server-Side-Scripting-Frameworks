@@ -1,0 +1,66 @@
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  details: UserDetails
+}
+
+type TokenMessage {
+  token: String
+  message: String!
+  user: User!
+}
+
+input Credentials {
+  username: String!
+  password: String!
+}
+
+type UserDetails {
+  firstName: String
+  lastName: String
+  phone: String
+}
+
+input UserDetailsInput {
+  firstName: String
+  lastName: String
+  phone: String
+}
+
+input UserModify {
+  id: ID!
+  username: String
+  email: String
+  password: String
+  details: UserDetailsInput
+}
+
+input UserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input AddUserInput {
+  username: String!
+  email: String!
+  password: String!
+  details: UserDetailsInput
+}
+
+type Query {
+  users: [User]
+  userById(id: ID!): User
+  checkToken: TokenMessage
+}
+
+type Mutation {
+  register(user: UserInput!): TokenMessage!
+  login(credentials: Credentials!): TokenMessage!
+  addUserAsAdmin(user: AddUserInput!): TokenMessage!
+  updateUser(user: UserModify): TokenMessage!
+  deleteUser(id: ID!): TokenMessage!
+  updateUserAsAdmin(user: UserModify!, id: ID!): TokenMessage
+  deleteUserAsAdmin(id: ID!): TokenMessage
+}

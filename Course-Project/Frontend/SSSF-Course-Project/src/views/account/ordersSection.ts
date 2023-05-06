@@ -8,7 +8,7 @@ export default function ordersSection(orders: any, products: any): string {
   const ordersHtml = orders
     .map((order: any, index: any) => {
       const { books, totalPrice, details, status } = order;
-      const { firstName, lastName, phone, email, comments } = details;
+      const { firstName, lastName, phone, email } = details;
 
       const booksHtml = books
         .map((book: any) => {

@@ -111,28 +111,28 @@ async function sendCreateOrderMutation(user: User, cart: Cart) {
   return data.createOrder;
 }
 
-async function sendOrderConfirmationEmail(
-  userEmail: string,
-  orderDetails: string
-): Promise<void> {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_EMAIL_URL}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userEmail, orderDetails }),
-    });
+// async function sendOrderConfirmationEmail(
+//   userEmail: string,
+//   orderDetails: string
+// ): Promise<void> {
+//   try {
+//     const response = await fetch(`${import.meta.env.VITE_EMAIL_URL}`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ userEmail, orderDetails }),
+//     });
 
-    if (response.ok) {
-      console.log('Email sent successfully.');
-    } else {
-      console.error('Error sending email.');
-    }
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
-}
+//     if (response.ok) {
+//       console.log('Email sent successfully.');
+//     } else {
+//       console.error('Error sending email.');
+//     }
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//   }
+// }
 
 export const initStripe = async () => {
   const apiKey =

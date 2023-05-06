@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { getProductsQuery } from '../graphql/queries';
 

@@ -2,11 +2,9 @@ import { doGraphQLFetch } from '../graphql/fetch';
 import {
   addProductAsAdminQuery,
   deleteProductAsAdminQuery,
-  getProductsQuery,
   updateProductAsAdminQuery,
 } from '../graphql/queries';
 import { Book as Product } from '../interfaces/Book';
-import router from '../router';
 import { showErrorMessage, showSuccessMessage } from './admin';
 
 export const initProductSectionEventListeners = (): void => {

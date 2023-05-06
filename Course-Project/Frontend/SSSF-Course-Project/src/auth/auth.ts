@@ -1,5 +1,5 @@
 import { doGraphQLFetch } from '../graphql/fetch';
-import { loginQuery, registerQuery, userByIdQuery } from '../graphql/queries';
+import { loginQuery, registerQuery } from '../graphql/queries';
 
 export async function login(
   username: string,

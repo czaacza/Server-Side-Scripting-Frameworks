@@ -7,22 +7,22 @@ export default function checkoutSection(user?: User, cart?: any): string {
     phone: '',
   };
 
-  const cartItems = cart?.books
-    ?.map((cartItem: any) => {
-      const book = cartItem.book;
-      return `
-      <div class="row mb-3">
-        <img class="col-md-3" src="${book.image}" alt="" />
-        <div>
-          <p class="card-text">${book.title}</p>
-          <p class="card-text">${book.author}</p>
-          <p class="card-text">Quantity: ${cartItem.quantity}</p>
-        </div>
-      </div>
-      <hr />
-    `;
-    })
-    .join('');
+  // const cartItems = cart?.books
+  //   ?.map((cartItem: any) => {
+  //     const book = cartItem.book;
+  //     return `
+  //     <div class="row mb-3">
+  //       <img class="col-md-3" src="${book.image}" alt="" />
+  //       <div>
+  //         <p class="card-text">${book.title}</p>
+  //         <p class="card-text">${book.author}</p>
+  //         <p class="card-text">Quantity: ${cartItem.quantity}</p>
+  //       </div>
+  //     </div>
+  //     <hr />
+  //   `;
+  //   })
+  //   .join('');
 
   const modalHtml = `<section class="checkout-section">
     <div class="container">

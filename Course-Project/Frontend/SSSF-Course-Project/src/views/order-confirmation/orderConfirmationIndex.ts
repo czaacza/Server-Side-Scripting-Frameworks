@@ -1,6 +1,4 @@
-import { User } from '../../interfaces/User';
-
-export default function index(user?: User): string {
+export default function index(): string {
   const modalHtml = `
   <div class="container order-confirmation-container">
     <div class="order-confirmation">

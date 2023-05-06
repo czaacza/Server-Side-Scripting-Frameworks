@@ -1,0 +1,37 @@
+# create a book type, queries and mutations for the book model
+type Book {
+  id: ID!
+  title: String!
+  author: String!
+  description: String!
+  price: Float!
+  image: String!
+}
+
+input BookInput {
+  title: String!
+  author: String!
+  description: String!
+  price: Float!
+  image: String!
+}
+
+input BookModifyInput {
+  id: ID!
+  title: String
+  author: String
+  description: String
+  price: Float
+  image: String
+}
+
+type Query {
+  books: [Book]
+  bookById(id: ID!): Book
+}
+
+type Mutation {
+  createBook(bookInput: BookInput): Book
+  updateBook(bookModifyInput: BookModifyInput): Book
+  deleteBook(id: ID!): Book
+}

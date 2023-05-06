@@ -1,0 +1,63 @@
+type Order {
+  id: ID!
+  userId: ID
+  books: [OrderBook!]!
+  totalPrice: Float!
+  details: OrderDetails!
+  status: String!
+}
+
+type OrderBook {
+  book: ID!
+  quantity: Int!
+}
+
+type OrderDetails {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  comments: String
+}
+
+type Query {
+  ordersByUser(userId: ID!): [Order!]!
+  ordersByAdmin: [Order]
+  order(id: ID!): Order
+}
+
+type Mutation {
+  createOrder(orderInput: OrderInput!): Order!
+  updateOrder(orderModifyInput: OderModifyInput!): Order
+  deleteOrder(id: ID!): Order!
+}
+
+input OrderInput {
+  userId: ID
+  books: [OrderBookInput!]!
+  totalPrice: Float!
+  details: OrderDetailsInput!
+  status: String!
+}
+
+input OderModifyInput {
+  id: ID!
+  userId: ID
+  books: [OrderBookInput!]
+  totalPrice: Float
+  details: OrderDetailsInput
+  status: String
+}
+
+input OrderBookInput {
+  book: ID!
+  quantity: Int!
+}
+
+input OrderDetailsInput {
+  firstName: String!
+  lastName: String!
+  phone: String!
+  email: String!
+  comments: String
+}

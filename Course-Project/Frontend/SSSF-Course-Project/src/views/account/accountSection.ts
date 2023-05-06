@@ -2,7 +2,7 @@ import { isUserAdmin } from '../../api/users';
 import { User } from '../../interfaces/User';
 
 export default function accountSection(user?: User): string {
-  const { id, username, email, details } = user || {};
+  const { username, email, details } = user || {};
   const { firstName, lastName, phone } = details || {};
 
   const isAdmin = isUserAdmin(

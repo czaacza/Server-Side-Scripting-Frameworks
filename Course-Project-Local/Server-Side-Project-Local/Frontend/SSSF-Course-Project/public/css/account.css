@@ -1,0 +1,105 @@
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.account-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-save-changes {
+  padding: 10px 24px !important;
+}
+
+.btn-admin-panel-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.btn-admin-panel {
+  width: 200px;
+}
+
+.success-message {
+  display: none;
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  z-index: 100;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  opacity: 0;
+}
+
+.error-message {
+  display: none;
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336;
+  z-index: 100;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  opacity: 0;
+}
+
+.user-list-item,
+.product-list-item {
+  cursor: pointer;
+}
+
+.user-list-item:hover,
+.product-list-item:hover {
+  background-color: #f1f1f1;
+}
+
+.no-orders-message {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.user-panel-container,
+.product-panel-container {
+  margin-top: 9.6rem;
+}
+
+.product-panel-container {
+  margin-bottom: 10rem;
+}
+
+.book-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-history-img {
+  width: 100px;
+  height: auto;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

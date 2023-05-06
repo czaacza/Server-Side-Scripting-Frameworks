@@ -1,10 +1,8 @@
 import jwt_decode from 'jwt-decode';
-import { User, UserFromToken, UserOutput } from '../interfaces/User';
+import { UserFromToken } from '../interfaces/User';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { userByIdQuery } from '../graphql/queries';
-export async function getStoredUser(
-  checkIfAdmin?: boolean
-): Promise<User | undefined> {
+export async function getStoredUser(checkIfAdmin?: boolean) {
   const token = sessionStorage.getItem('token');
   if (!token) {
     return undefined;
